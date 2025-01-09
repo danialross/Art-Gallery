@@ -14,7 +14,7 @@ export default {
         background: "#F5F5F5",
       },
     },
-    fontSize: { small: "16px", medium: "24px", large: "32px" },
+    fontSize: { small: "0.5rem", medium: "1rem", large: "1.5rem" },
     padding: {
       xAxis: "120px",
       yAxis: "60px",
