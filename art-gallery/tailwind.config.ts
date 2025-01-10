@@ -13,18 +13,19 @@ export default {
         secondary: "#2C3E50",
         background: "#F5F5F5",
       },
+      spacing: { minWidth: "300px", minHeight: "675px" },
+      fontSize: { small: "0.5rem", medium: "1rem", large: "1.5rem" },
+      padding: {
+        xAxis: "120px",
+        yAxis: "60px",
+        mobileXAxis: "30px",
+        mobileYAxis: "30px",
+      },
+      fontFamily: {
+        montserrat: ["Montserrat", "sans-serif"],
+      },
+      animation: { fadeInOut: "transition-opacity duration-500 ease-in-out" },
     },
-    fontSize: { small: "0.5rem", medium: "1rem", large: "1.5rem" },
-    padding: {
-      xAxis: "120px",
-      yAxis: "60px",
-      mobileXAxis: "30px",
-      mobileYAxis: "30px",
-    },
-    fontFamily: {
-      montserrat: ["Montserrat", "sans-serif"],
-    },
-    animation: { fadeInOut: "transition-opacity duration-500 ease-in-out" },
   },
   plugins: [],
 } satisfies Config;

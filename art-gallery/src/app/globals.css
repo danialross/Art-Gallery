@@ -23,6 +23,20 @@ body {
   @apply text-black
 }
 
+@layer components {
+  .minDimensions {
+    @apply min-w-minWidth min-h-minHeight
+  }
+
+  .xPadding {
+    @apply px-mobileXAxis sm:px-xAxis
+  }
+
+  .yPadding {
+    @apply py-mobileYAxis sm:py-yAxis
+  }
+}
+
 @layer utilities{
   .fadeInOut {
     @apply transition-opacity duration-200 ease-in-out;
