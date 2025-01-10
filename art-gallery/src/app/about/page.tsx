@@ -28,10 +28,10 @@ const About = () => {
       </p>
       <p>
         Whether you're a student researching art history, a visitor looking for
-        information about an exhibit, or simply someone passionate about art,
-        this site provides an intuitive and informative experience. The API
-        pulls data from various collections, offering up-to-date details,
-        high-quality images, and extensive metadata about each artwork.
+        information about a piece, or simply someone passionate about art, this
+        site provides an intuitive and informative experience. The API pulls
+        data from various collections, offering up-to-date details, high-quality
+        images, and extensive metadata about each artwork.
       </p>
       <p>
         For more information about the API and how it powers this project, check
