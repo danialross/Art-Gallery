@@ -8,7 +8,7 @@ export default function Home() {
     queryKey: ["artworks"],
     queryFn: getLatestArtworks,
   });
-  
+
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>home</div>
   );
