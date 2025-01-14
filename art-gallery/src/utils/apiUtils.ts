@@ -1,86 +1,89 @@
 import axios from "axios";
-import { getRandomNumber } from "@/utils/utils";
 import { Artwork } from "@/types";
 
-const fields =
-  "fields=description,date_display,image_id,place_of_origin,artist_title";
+const fields = { fields: "id,description,date_display,image_id,place_of_origin,artist_title" };
+const artworkInfoUrl = `https://api.artic.edu/api/v1/artwork`;
 
-const infoUrl = "https://api.artic.edu/api/v1/artworks";
-const getImageUrl = (id: string) => {
-  return `https://www.artic.edu/iiif/2/${id}/full/843,/0/default.jpg`;
+const getArtworkImageUrl = (image_id: string) => {
+  return `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`;
 };
 
-export const getArtwork = async (ids: [string]) => {
-  const url = `${infoUrl}?ids=${ids.toString()}&${fields}`;
+export const getLatestArtworks = async (): Promise<Artwork[]> => {
   try {
-    const result = await axios.get(url);
-    return result.data;
-  } catch (e) {
-    console.error(`Error retrieving ${ids.toString()}`, e);
-  }
-};
-
-export const getLatestArtworks = async () => {
-  const url = `${infoUrl}?${fields}&limit=5`;
-  try {
-    const result = await axios.get(url);
-    console.log(result);
-    return result.data;
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-export const getArtworksImage = async (id: string) => {
-  const url = getImageUrl(id);
-  try {
-    const result = await axios.get(url);
-    console.log(result);
-    return result.data;
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-export const getTotalArtworks = async () => {
-  const url = "https://api.artic.edu/api/v1/artworks";
-  try {
-    const result = await axios.get(url);
-    console.log(result);
-    return result.data.pagination.total;
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-export const getFeaturedArtworks = async () => {
-  const totalArtworkNum = await getTotalArtworks();
-  const ids = [];
-  const isArtworkValid = false;
-
-  while (!isArtworkValid) {
-    let lastRandomNumber = 0;
-    let randomNumber = getRandomNumber(totalArtworkNum);
-    //make sure artwork is not the same
-    while (randomNumber === lastRandomNumber) {
-      randomNumber = getRandomNumber(lastRandomNumber);
+    const result = await axios.get(artworkInfoUrl, {
+      params: {
+        limit: 5,
+        fields: fields,
+      },
+    });
+    return result.data.data || [];
+  } catch (e: unknown) {
+    if (axios.isAxiosError(e)) {
+      console.error("Error getting latest artwork : ", e.message);
+    } else {
+      console.error("Error getting latest artwork");
     }
-
-    ids.push(getRandomNumber(totalArtworkNum));
-
-    const result = await axios.get(url);
+    return [];
   }
+};
 
-  const artworks: Artwork[] = [];
-  const url = `https://api.artic.edu/api/v1/artworks`;
+export const getArtworksImage = async (image_id: string): Promise<Blob | null> => {
+  const url = getArtworkImageUrl(image_id);
   try {
-    for (let id of ids) {
-      const imageId = (await axios.get(`url/${id}`)).data.image_id;
-      artworks.push(imageId);
+    const result = await axios.get(url, { responseType: "blob" });
+    return result.data || null;
+  } catch (e: unknown) {
+    if (axios.isAxiosError(e)) {
+      console.error("Error getting artwork image : ", e.message);
+    } else {
+      console.error("Error getting artwork image");
     }
-  } catch (e) {
-    console.error("Unable to get featured artwork ", e);
+    return null;
   }
 
-  return artworks;
+};
+
+export const getFeaturedArtworks = async (): Promise<Artwork[]> => {
+  try {
+    const result = await axios.get(`${artworkInfoUrl}/search`, {
+      params: {
+        limit: 6,
+        fields: fields,
+        is_boosted: true,
+      },
+    });
+    return result.data.data || []
+
+    }catch(e:unknown){
+      if (axios.isAxiosError(e)) {
+        console.error("Error retrieving featured artworks : ", e);
+      } else {
+        console.error("Error retrieving featured artworks");
+      }
+      return [];
+  }
+
+};
+
+export const getArtworkUsingQuery = async (query: string, page = 1): Promise<Artwork[]> => {
+  try {
+    const result = await axios.get(`${artworkInfoUrl}/search`, {
+      params: {
+        limit: 12,
+        fields: fields,
+        q: query,
+        page: page,
+      },
+    });
+    return result.data.data || [];
+
+  } catch (e: unknown) {
+    if (axios.isAxiosError(e)) {
+      console.error("Error retrieving queried artworks : ", e);
+    } else {
+      console.error("Error retrieving queried artworks");
+    }
+    return [];
+  }
+
 };

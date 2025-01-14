@@ -1,28 +1,44 @@
 "use client";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { getLatestArtworks, getTotalArtworks } from "@/utils/apiUtils";
+import { getFeaturedArtworks, getLatestArtworks } from "@/utils/apiUtils";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Artwork } from "@/types";
+import { useEffect, useState } from "react";
+import { getArtworkBlobs } from "@/utils/utils";
 
 export default function Home() {
+  const [featuredArtworksImages,setFeaturedArtworksImages] = useState<Blob[]>([]);
+  const [latestArtworksImages,setLatestArtworksImages] = useState<Blob[]>([]);
+
+
   const {
-    isError: isErrorLatestArtwork,
-    isLoading: isLoadingLatestArtwork,
-    data: latestArtwork,
+    isError: isErrorLatestArtworks,
+    isLoading: isLoadingLatestArtworks,
+    data: latestArtworks = [],
+    isSuccess: isSuccessLatestArtworks
   } = useQuery({
-    queryKey: ["artworks"],
+    queryKey: ["latestArtwork"],
     queryFn: getLatestArtworks,
   });
 
   const {
-    isError: isErrorFeaturedArtwork,
-    isLoading: isLoadingFeaturedArtwork,
-    data: featuredArtwork,
+    isError: isErrorFeaturedArtworks,
+    isLoading: isLoadingFeaturedArtworks,
+    data: featuredArtworks = [],
+    isSuccess: isSuccessFeaturedArtworks
   } = useQuery({
-    queryKey: ["totalNumArtwork"],
-    queryFn: getTotalArtworks,
+    queryKey: ["featuredArtwork"],
+    queryFn: getFeaturedArtworks,
   });
+
+//   useEffect(() => {
+// if(isSuccessFeaturedArtworks && featuredArtworks){
+//   getArtworkBlobs(featuredArtworks)
+// }
+//   },[isSuccessFeaturedArtworks,featuredArtworks])
+//   useEffect(() => {},[isSuccessLatestArtwork])
+
 
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
@@ -34,16 +50,16 @@ export default function Home() {
       <div>
         <Carousel className={"py-8"}>
           <CarouselContent>
-            {featuredArtwork.map((artwork: Artwork) => (
-              <CarouselItem className={"basis-1/3"}>
-                <Image
-                  src={"/Art_Institute_of_Chicago_logo.png"}
-                  alt={"first"}
-                  width={300}
-                  height={300}
-                />
-              </CarouselItem>
-            ))}
+            {/*{featuredArtworks.map((blob: Blob) => (*/}
+            {/*  <CarouselItem className={"basis-1/3"}>*/}
+            {/*    <Image*/}
+            {/*      src={"/Art_Institute_of_Chicago_logo.png"}*/}
+            {/*      alt={"first"}*/}
+            {/*      width={300}*/}
+            {/*      height={300}*/}
+            {/*    />*/}
+            {/*  </CarouselItem>*/}
+            {/*))}*/}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
