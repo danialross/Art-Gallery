@@ -1,22 +1,29 @@
 "use client";
-import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { getFeaturedArtworks, getLatestArtworks } from "@/utils/apiUtils";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Artwork } from "@/types";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselNext,
+  CarouselPrevious,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
-import { getArtworkBlobs } from "@/utils/utils";
+import { setUrlFromArtworks } from "@/utils/utils";
+import Image from "next/image";
+import LoadingImage from "@/components/LoadingImage";
 
 export default function Home() {
-  const [featuredArtworksImages,setFeaturedArtworksImages] = useState<Blob[]>([]);
-  const [latestArtworksImages,setLatestArtworksImages] = useState<Blob[]>([]);
-
+  const [featuredArtworksUrls, setFeaturedArtworksUrls] = useState<string[]>(
+    [],
+  );
+  const [latestArtworksUrls, setLatestArtworksUrls] = useState<string[]>([]);
 
   const {
     isError: isErrorLatestArtworks,
     isLoading: isLoadingLatestArtworks,
     data: latestArtworks = [],
-    isSuccess: isSuccessLatestArtworks
+    isSuccess: isSuccessLatestArtworks,
   } = useQuery({
     queryKey: ["latestArtwork"],
     queryFn: getLatestArtworks,
@@ -26,19 +33,35 @@ export default function Home() {
     isError: isErrorFeaturedArtworks,
     isLoading: isLoadingFeaturedArtworks,
     data: featuredArtworks = [],
-    isSuccess: isSuccessFeaturedArtworks
+    isSuccess: isSuccessFeaturedArtworks,
   } = useQuery({
     queryKey: ["featuredArtwork"],
     queryFn: getFeaturedArtworks,
   });
 
-//   useEffect(() => {
-// if(isSuccessFeaturedArtworks && featuredArtworks){
-//   getArtworkBlobs(featuredArtworks)
-// }
-//   },[isSuccessFeaturedArtworks,featuredArtworks])
-//   useEffect(() => {},[isSuccessLatestArtwork])
+  useEffect(() => {
+    if (isSuccessFeaturedArtworks && featuredArtworks) {
+      setUrlFromArtworks(featuredArtworks, setFeaturedArtworksUrls);
+    }
+  }, [isSuccessFeaturedArtworks, featuredArtworks]);
 
+  useEffect(() => {
+    if (isSuccessLatestArtworks && latestArtworks) {
+      setUrlFromArtworks(latestArtworks, setLatestArtworksUrls);
+    }
+  }, [setUrlFromArtworks, latestArtworks]);
+
+  useEffect(() => {
+    return () => {
+      featuredArtworksUrls.forEach((url) => {
+        URL.revokeObjectURL(url);
+      });
+
+      latestArtworksUrls.forEach((url) => {
+        URL.revokeObjectURL(url);
+      });
+    };
+  }, []);
 
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
@@ -47,19 +70,37 @@ export default function Home() {
         Explore our handpicked selection of the most captivating and
         talked-about pieces.
       </p>
-      <div>
-        <Carousel className={"py-8"}>
-          <CarouselContent>
-            {/*{featuredArtworks.map((blob: Blob) => (*/}
-            {/*  <CarouselItem className={"basis-1/3"}>*/}
-            {/*    <Image*/}
-            {/*      src={"/Art_Institute_of_Chicago_logo.png"}*/}
-            {/*      alt={"first"}*/}
-            {/*      width={300}*/}
-            {/*      height={300}*/}
-            {/*    />*/}
-            {/*  </CarouselItem>*/}
-            {/*))}*/}
+      <div className={"flex justify-center "}>
+        <Carousel className={"py-8 w-[250px] sm:w-full"} opts={{ loop: true }}>
+          <CarouselContent className={"-ml-10"}>
+            {isLoadingFeaturedArtworks
+              ? Array.from({ length: 5 }).map((_, index) => (
+                  <CarouselItem
+                    className={"basis-1/1 sm:basis-1/3 h-[500px] w-[500px]"}
+                    key={index}
+                  >
+                    <LoadingImage />
+                  </CarouselItem>
+                ))
+              : featuredArtworksUrls.map((url: string) => (
+                  <CarouselItem
+                    className={
+                      "basis-1/1 sm:basis-1/3 flex items-center pl-10 w-full "
+                    }
+                    key={url}
+                  >
+                    <Image
+                      src={url}
+                      alt={"artwork"}
+                      height={500}
+                      width={500}
+                      style={{
+                        objectFit: "contain",
+                      }}
+                      layout="intrinsic"
+                    />
+                  </CarouselItem>
+                ))}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />

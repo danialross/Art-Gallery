@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Artwork } from "@/types";
 
-const fields = { fields: "id,description,date_display,image_id,place_of_origin,artist_title" };
-const artworkInfoUrl = `https://api.artic.edu/api/v1/artwork`;
+const fields =
+  "id,description,date_display,image_id,place_of_origin,artist_title";
+const artworkInfoUrl = `https://api.artic.edu/api/v1/artworks`;
 
 const getArtworkImageUrl = (image_id: string) => {
   return `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`;
@@ -27,7 +28,9 @@ export const getLatestArtworks = async (): Promise<Artwork[]> => {
   }
 };
 
-export const getArtworksImage = async (image_id: string): Promise<Blob | null> => {
+export const getArtworksImage = async (
+  image_id: string,
+): Promise<Blob | null> => {
   const url = getArtworkImageUrl(image_id);
   try {
     const result = await axios.get(url, { responseType: "blob" });
@@ -40,32 +43,32 @@ export const getArtworksImage = async (image_id: string): Promise<Blob | null> =
     }
     return null;
   }
-
 };
 
 export const getFeaturedArtworks = async (): Promise<Artwork[]> => {
   try {
-    const result = await axios.get(`${artworkInfoUrl}/search`, {
+    const result = await axios.get(`${artworkInfoUrl}`, {
       params: {
         limit: 6,
         fields: fields,
         is_boosted: true,
       },
     });
-    return result.data.data || []
-
-    }catch(e:unknown){
-      if (axios.isAxiosError(e)) {
-        console.error("Error retrieving featured artworks : ", e);
-      } else {
-        console.error("Error retrieving featured artworks");
-      }
-      return [];
+    return result.data.data || [];
+  } catch (e: unknown) {
+    if (axios.isAxiosError(e)) {
+      console.error("Error retrieving featured artworks : ", e);
+    } else {
+      console.error("Error retrieving featured artworks");
+    }
+    return [];
   }
-
 };
 
-export const getArtworkUsingQuery = async (query: string, page = 1): Promise<Artwork[]> => {
+export const getArtworkUsingQuery = async (
+  query: string,
+  page = 1,
+): Promise<Artwork[]> => {
   try {
     const result = await axios.get(`${artworkInfoUrl}/search`, {
       params: {
@@ -76,7 +79,6 @@ export const getArtworkUsingQuery = async (query: string, page = 1): Promise<Art
       },
     });
     return result.data.data || [];
-
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
       console.error("Error retrieving queried artworks : ", e);
@@ -85,5 +87,4 @@ export const getArtworkUsingQuery = async (query: string, page = 1): Promise<Art
     }
     return [];
   }
-
 };
