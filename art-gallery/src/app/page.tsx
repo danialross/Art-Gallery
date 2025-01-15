@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { setUrlFromArtworks } from "@/utils/utils";
 import Image from "next/image";
 import LoadingImage from "@/components/LoadingImage";
+import NewlyAddedArt from "@/components/NewlyAddedArt";
 
 export default function Home() {
   const [featuredArtworksUrls, setFeaturedArtworksUrls] = useState<string[]>(
@@ -101,7 +102,6 @@ export default function Home() {
       </div>
       <h1 className={"text-large font-bold"}>Newly Added</h1>
       <p>Freshly arrived and ready to inspire.</p>
-      <div></div>
     </div>
   );
 }

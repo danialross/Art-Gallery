@@ -2,7 +2,7 @@ import axios from "axios";
 import { Artwork } from "@/types";
 
 const fields =
-  "id,description,date_display,image_id,place_of_origin,artist_title";
+  "id,description,date_display,image_id,place_of_origin,artist_title,title";
 const artworkInfoUrl = `https://api.artic.edu/api/v1/artworks`;
 
 const getArtworkImageUrl = (image_id: string) => {
