@@ -19,34 +19,28 @@ export default function Home() {
   );
   const [latestArtworksUrls, setLatestArtworksUrls] = useState<string[]>([]);
 
-  const {
-    isError: isErrorLatestArtworks,
-    isLoading: isLoadingLatestArtworks,
-    data: latestArtworks = [],
-    isSuccess: isSuccessLatestArtworks,
-  } = useQuery({
-    queryKey: ["latestArtwork"],
-    queryFn: getLatestArtworks,
-  });
+  const { data: latestArtworks = [], isSuccess: isSuccessLatestArtworks } =
+    useQuery({
+      queryKey: ["latestArtwork"],
+      queryFn: getLatestArtworks,
+    });
 
-  const {
-    isError: isErrorFeaturedArtworks,
-    isLoading: isLoadingFeaturedArtworks,
-    data: featuredArtworks = [],
-    isSuccess: isSuccessFeaturedArtworks,
-  } = useQuery({
-    queryKey: ["featuredArtwork"],
-    queryFn: getFeaturedArtworks,
-  });
+  const { data: featuredArtworks = [], isSuccess: isSuccessFeaturedArtworks } =
+    useQuery({
+      queryKey: ["featuredArtwork"],
+      queryFn: getFeaturedArtworks,
+    });
 
   useEffect(() => {
     if (isSuccessFeaturedArtworks && featuredArtworks) {
+      console.log(featuredArtworks);
       setUrlFromArtworks(featuredArtworks, setFeaturedArtworksUrls);
     }
   }, [isSuccessFeaturedArtworks, featuredArtworks]);
 
   useEffect(() => {
     if (isSuccessLatestArtworks && latestArtworks) {
+      console.log(latestArtworks);
       setUrlFromArtworks(latestArtworks, setLatestArtworksUrls);
     }
   }, [setUrlFromArtworks, latestArtworks]);
@@ -73,19 +67,11 @@ export default function Home() {
       <div className={"flex justify-center "}>
         <Carousel className={"py-8 w-[250px] sm:w-full"} opts={{ loop: true }}>
           <CarouselContent className={"-ml-10"}>
-            {isLoadingFeaturedArtworks
-              ? Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem
-                    className={"basis-1/1 sm:basis-1/3 h-[500px] w-[500px]"}
-                    key={index}
-                  >
-                    <LoadingImage />
-                  </CarouselItem>
-                ))
-              : featuredArtworksUrls.map((url: string) => (
+            {featuredArtworksUrls.length > 0
+              ? featuredArtworksUrls.map((url: string) => (
                   <CarouselItem
                     className={
-                      "basis-1/1 sm:basis-1/3 flex items-center pl-10 w-full "
+                      "basis-1/1 sm:basis-1/3 flex items-center pl-10 w-full"
                     }
                     key={url}
                   >
@@ -97,8 +83,15 @@ export default function Home() {
                       style={{
                         objectFit: "contain",
                       }}
-                      layout="intrinsic"
                     />
+                  </CarouselItem>
+                ))
+              : Array.from({ length: 5 }).map((_, index) => (
+                  <CarouselItem
+                    className={"basis-1/1 sm:basis-1/3 h-[500px] w-[500px]"}
+                    key={index}
+                  >
+                    <LoadingImage />
                   </CarouselItem>
                 ))}
           </CarouselContent>
@@ -106,6 +99,9 @@ export default function Home() {
           <CarouselNext />
         </Carousel>
       </div>
+      <h1 className={"text-large font-bold"}>Newly Added</h1>
+      <p>Freshly arrived and ready to inspire.</p>
+      <div></div>
     </div>
   );
 }
