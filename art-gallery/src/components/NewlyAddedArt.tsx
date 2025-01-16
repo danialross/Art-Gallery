@@ -49,7 +49,7 @@ const NewlyAddedArt = ({
             <Accordion
               type="single"
               collapsible
-              className="w-[350px] lg:hidden -mt-4"
+              className="w-full lg:hidden -mt-4"
             >
               <AccordionItem value="item-1">
                 <AccordionTrigger className={"text-medium"}>

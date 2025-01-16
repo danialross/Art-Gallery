@@ -13,6 +13,7 @@ export const getLatestArtworks = async (): Promise<Artwork[]> => {
   try {
     const result = await axios.get(artworkInfoUrl, {
       params: {
+        is_boosted: false,
         limit: 5,
         fields: fields,
       },
@@ -49,9 +50,9 @@ export const getFeaturedArtworks = async (): Promise<Artwork[]> => {
   try {
     const result = await axios.get(`${artworkInfoUrl}`, {
       params: {
+        is_boosted: true,
         limit: 6,
         fields: fields,
-        is_boosted: true,
       },
     });
     return result.data.data || [];
