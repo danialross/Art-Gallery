@@ -8,55 +8,21 @@ import {
   CarouselPrevious,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
-import { setUrlFromArtworks } from "@/utils/utils";
-import Image from "next/image";
-import LoadingImage from "@/components/LoadingImage";
+import { Artwork } from "@/types";
+import Art from "@/components/Art";
 import NewlyAddedArt from "@/components/NewlyAddedArt";
 
 export default function Home() {
-  const [featuredArtworksUrls, setFeaturedArtworksUrls] = useState<string[]>(
-    [],
-  );
-  const [latestArtworksUrls, setLatestArtworksUrls] = useState<string[]>([]);
+  const { data: latestArtworks = [] } = useQuery({
+    queryKey: ["latestArtwork"],
+    queryFn: getLatestArtworks,
+  });
 
-  const { data: latestArtworks = [], isSuccess: isSuccessLatestArtworks } =
-    useQuery({
-      queryKey: ["latestArtwork"],
-      queryFn: getLatestArtworks,
-    });
-
-  const { data: featuredArtworks = [], isSuccess: isSuccessFeaturedArtworks } =
+  const { data: featuredArtworks = [null, null, null, null, null, null] } =
     useQuery({
       queryKey: ["featuredArtwork"],
       queryFn: getFeaturedArtworks,
     });
-
-  useEffect(() => {
-    if (isSuccessFeaturedArtworks && featuredArtworks) {
-      console.log(featuredArtworks);
-      setUrlFromArtworks(featuredArtworks, setFeaturedArtworksUrls);
-    }
-  }, [isSuccessFeaturedArtworks, featuredArtworks]);
-
-  useEffect(() => {
-    if (isSuccessLatestArtworks && latestArtworks) {
-      console.log(latestArtworks);
-      setUrlFromArtworks(latestArtworks, setLatestArtworksUrls);
-    }
-  }, [setUrlFromArtworks, latestArtworks]);
-
-  useEffect(() => {
-    return () => {
-      featuredArtworksUrls.forEach((url) => {
-        URL.revokeObjectURL(url);
-      });
-
-      latestArtworksUrls.forEach((url) => {
-        URL.revokeObjectURL(url);
-      });
-    };
-  }, []);
 
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
@@ -66,37 +32,26 @@ export default function Home() {
         talked-about pieces.
       </p>
       <div className={"flex justify-center "}>
-        <Carousel className={"py-8 w-[250px] sm:w-full"} opts={{ loop: true }}>
-          <CarouselContent className={"-ml-10"}>
-            {featuredArtworksUrls.length > 0
-              ? featuredArtworksUrls.map((url: string) => (
-                  <CarouselItem
-                    className={
-                      "basis-1/1 sm:basis-1/3 flex items-center pl-10 w-full"
-                    }
-                    key={url}
-                  >
-                    <Image
-                      src={url}
-                      alt={"artwork"}
-                      height={500}
-                      width={500}
-                      style={{
-                        objectFit: "contain",
-                      }}
-                    />
-                  </CarouselItem>
-                ))
-              : Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem
-                    className={"basis-1/1 sm:basis-1/3 h-[500px] w-[500px]"}
-                    key={index}
-                  >
-                    <LoadingImage />
-                  </CarouselItem>
-                ))}
-          </CarouselContent>
+        <Carousel className={"w-[250px] md:w-full"} opts={{ loop: true }}>
           <CarouselPrevious />
+          <CarouselContent className={"py-8 "}>
+            {featuredArtworks.map((artwork: Artwork | null, index: number) => (
+              <CarouselItem
+                className={
+                  "basis-1/1 md:basis-1/3 relative flex justify-center items-center "
+                }
+                key={index}
+              >
+                {/*use loading from within art because art need to process one more step before showing image*/}
+                {/*using useQuery isLoading causes the image to flash to another loading state before showing image*/}
+                <Art
+                  image_id={artwork ? artwork.image_id : null}
+                  width={400}
+                  height={400}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
           <CarouselNext />
         </Carousel>
       </div>
