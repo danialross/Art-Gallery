@@ -15,7 +15,7 @@ import NewlyAddedArt from "@/components/NewlyAddedArt";
 export default function Home() {
   const { data: latestArtworks = [null, null, null, null, null] } = useQuery({
     queryKey: ["latestArtwork"],
-    queryFn: getLatestArtworks,
+    queryFn: () => getLatestArtworks(5),
   });
 
   const { data: featuredArtworks = [null, null, null, null, null, null] } =

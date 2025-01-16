@@ -9,12 +9,12 @@ const getArtworkImageUrl = (image_id: string) => {
   return `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`;
 };
 
-export const getLatestArtworks = async (): Promise<Artwork[]> => {
+export const getLatestArtworks = async (limit: number): Promise<Artwork[]> => {
   try {
     const result = await axios.get(artworkInfoUrl, {
       params: {
         is_boosted: false,
-        limit: 5,
+        limit: limit,
         fields: fields,
       },
     });
@@ -67,13 +67,14 @@ export const getFeaturedArtworks = async (): Promise<Artwork[]> => {
 };
 
 export const getArtworkUsingQuery = async (
-  query: string,
+  query: string = "",
   page = 1,
+  limit = 9,
 ): Promise<Artwork[]> => {
   try {
     const result = await axios.get(`${artworkInfoUrl}/search`, {
       params: {
-        limit: 12,
+        limit: limit,
         fields: fields,
         q: query,
         page: page,
