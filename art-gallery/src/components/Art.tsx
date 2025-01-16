@@ -4,7 +4,7 @@ import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
 
 type ArtProps = {
-  image_id: string | null;
+  image_id: string;
   width: number;
   height: number;
 };
@@ -17,7 +17,7 @@ const Art = ({ image_id, width, height }: ArtProps) => {
     let newUrl: string;
 
     const getBlobFromImageId = async () => {
-      if (typeof image_id === "string") {
+      if (image_id !== "") {
         const blob = await getArtworksImage(image_id);
         //check if req passed
         if (blob instanceof Blob) {
@@ -46,7 +46,6 @@ const Art = ({ image_id, width, height }: ArtProps) => {
         }}
         width={width}
         height={height}
-        layout={"responsive"}
       />
     </div>
   ) : (
