@@ -45,6 +45,7 @@ export default {
           "5": "hsl(var(--chart-5))",
         },
       },
+      opacity: { hoverEffect: "0.6" },
       spacing: {
         minWidth: "300px",
         minHeight: "675px",

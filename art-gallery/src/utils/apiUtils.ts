@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Artwork } from "@/types";
 
 const fields =
@@ -6,7 +6,19 @@ const fields =
 const artworkInfoUrl = `https://api.artic.edu/api/v1/artworks`;
 
 const getArtworkImageUrl = (image_id: string) => {
-  return `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`;
+  return `https://wwww.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`;
+};
+
+export const getTotalArtworkPages = async () => {
+  try {
+    const result = await axios.get(artworkInfoUrl);
+    return result.data.pagination.total_pages;
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      console.error("Error retrieving total number of pages for artwork : ", e);
+    }
+    console.error("Error retrieving total number of pages for artwork");
+  }
 };
 
 export const getLatestArtworks = async (limit: number): Promise<Artwork[]> => {
