@@ -11,17 +11,20 @@ import {
 import { Artwork } from "@/types";
 import Art from "@/components/Art";
 import NewlyAddedArt from "@/components/NewlyAddedArt";
+import { processNullValues } from "@/utils/utils";
 
 export default function Home() {
   const { data: latestArtworks = [null, null, null, null, null] } = useQuery({
     queryKey: ["latestArtwork"],
     queryFn: () => getLatestArtworks(5),
+    select: processNullValues,
   });
 
   const { data: featuredArtworks = [null, null, null, null, null, null] } =
     useQuery({
       queryKey: ["featuredArtwork"],
       queryFn: getFeaturedArtworks,
+      select: processNullValues,
     });
 
   return (
@@ -31,7 +34,7 @@ export default function Home() {
         Explore our handpicked selection of the most captivating and
         talked-about pieces.
       </p>
-      <div className={"flex justify-center "}>
+      <div className={"flex justify-center pb-12"}>
         <Carousel className={"w-[250px] md:w-full"} opts={{ loop: true }}>
           <CarouselPrevious />
           <CarouselContent className={"py-8 "}>

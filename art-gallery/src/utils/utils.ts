@@ -1,43 +1,17 @@
-import { getArtworksImage } from "@/utils/apiUtils";
+//used by react query to convert all null values from /artwork api endpoint in artwork.data to N/A
 import { Artwork } from "@/types";
-import { Dispatch, SetStateAction } from "react";
 
-export const getArtworkBlobs = async (image_ids: string[]) => {
-  const artworkBlobs: (Blob | null)[] = [];
-  for (let image_id of image_ids) {
-    const newBlob = (await getArtworksImage(image_id)) || null;
-    artworkBlobs.push(newBlob);
-  }
-  return artworkBlobs;
-};
+export const processNullValues = (artworks: Artwork[]): Artwork[] => {
+  const artworksCopy = [...artworks];
 
-export const getArtworkImageIds = (artworks: Artwork[]): string[] => {
-  const artworkImageIds: string[] = [];
-  for (let artwork of artworks) {
-    artworkImageIds.push(artwork.image_id);
-  }
-  return artworkImageIds;
-};
-
-export const convertBlobToUrls = (blobs: (Blob | null)[]): string[] => {
-  const urls: string[] = [];
-  for (let blob of blobs) {
-    if (blob instanceof Blob) {
-      const newUrl = URL.createObjectURL(blob);
-      urls.push(newUrl);
-    } else {
-      urls.push("");
+  for (const artwork of artworksCopy) {
+    for (let key in artwork) {
+      if (artwork[key as keyof Artwork] === null) {
+        // @ts-ignore
+        artwork[key as keyof Artwork] = "N/A";
+      }
     }
   }
-  return urls;
-};
 
-export const setUrlFromArtworks = async (
-  artworks: Artwork[],
-  setter: Dispatch<SetStateAction<string[]>>,
-): Promise<void> => {
-  const image_ids = getArtworkImageIds(artworks);
-  const blobs = await getArtworkBlobs(image_ids);
-  const urls = convertBlobToUrls(blobs);
-  setter(urls);
+  return artworksCopy;
 };

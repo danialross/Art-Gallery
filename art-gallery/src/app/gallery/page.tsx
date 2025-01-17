@@ -24,8 +24,8 @@ const About = () => {
           <Art
             key={index}
             image_id={artwork ? artwork.image_id : ""}
-            height={300}
-            width={300}
+            height={350}
+            width={350}
           />
         ))}
       </div>

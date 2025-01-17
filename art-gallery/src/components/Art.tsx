@@ -4,7 +4,7 @@ import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
 
 type ArtProps = {
-  image_id: string;
+  image_id: string | null;
   width: number;
   height: number;
 };

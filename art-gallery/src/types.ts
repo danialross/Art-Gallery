@@ -1,9 +1,9 @@
 export type Artwork = {
-  id: string;
-  image_id: string;
-  title: string;
-  artist_title: string;
-  description: string;
-  place_of_origin: string;
-  date_display: string;
+  id: number | null;
+  image_id: string | null;
+  title: string | null;
+  artist_title: string | null;
+  description: string | null;
+  place_of_origin: string | null;
+  date_display: string | null;
 };
