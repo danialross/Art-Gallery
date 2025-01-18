@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
+import loadingImage from "@/components/LoadingImage";
 
 type ArtProps = {
   image_id: string | null;
@@ -37,7 +38,7 @@ const Art = ({ image_id, width, height }: ArtProps) => {
   }, [image_id]);
 
   return url ? (
-    <div className={`w-[250px] md:w-full`}>
+    <div className={"flex justify-center items-center"}>
       <Image
         src={url}
         alt={"artwork"}
@@ -49,9 +50,7 @@ const Art = ({ image_id, width, height }: ArtProps) => {
       />
     </div>
   ) : (
-    <div className={`w-[250px] h-[250px]`}>
-      <LoadingImage />
-    </div>
+    <LoadingImage width={width} height={height} />
   );
 };
 

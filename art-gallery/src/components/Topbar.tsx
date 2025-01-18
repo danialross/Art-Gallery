@@ -30,13 +30,13 @@ const Topbar = ({ children }: TopbarProps) => {
     <div className={"relative overflow-x-hidden"}>
       <div
         className={
-          "h-[70px] w-screen min-w-minWidth xPadding overflow-x-hidden bg-primary flex justify-between items-center"
+          "h-[70px] w-full min-w-minWidth xPadding overflow-x-hidden bg-primary flex justify-between items-center"
         }
       >
         <Link
           href={"/"}
           className={
-            "flex w-fit items-center gap-4 font-bold hover:opacity-hoverEffect fadeInOut"
+            "flex  items-center gap-4 font-bold hover:opacity-hoverEffect fadeInOut"
           }
         >
           <div className={"h-[48px] w-[48px]"}>
@@ -44,12 +44,12 @@ const Topbar = ({ children }: TopbarProps) => {
           </div>
           Agora
         </Link>
-        <div className={"text-medium hidden sm:w-[500px] sm:flex"}>
+        <div className={"text-medium hidden sm:w-[500px] sm:flex "}>
           {links.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className={"hover:opacity-hoverEffect fadeInOut ml-auto"}
+              className={"hover:opacity-hoverEffect fadeInOut ml-auto "}
             >
               {link.label}
             </Link>

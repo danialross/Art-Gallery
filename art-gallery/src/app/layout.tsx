@@ -17,17 +17,17 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: ReactNode;
 }>) {
   return (
     <html lang="en">
-    <body className={`antialiased`}>
-    <QueryProvider>
-      <Topbar>{children}</Topbar>
-    </QueryProvider>
-    </body>
+      <body className={`antialiased`}>
+        <QueryProvider>
+          <Topbar>{children}</Topbar>
+        </QueryProvider>
+      </body>
     </html>
   );
 }

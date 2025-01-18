@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useEffect, useRef, useState } from "react";
 
 const NewlyAddedArt = ({
   image_id,
@@ -15,12 +16,28 @@ const NewlyAddedArt = ({
   place_of_origin,
   date_display,
 }: Omit<Artwork, "id">) => {
+  const imageRef = useRef<HTMLDivElement | null>(null);
+  const [imageWidth, setImageWidth] = useState(0);
+
+  useEffect(() => {
+    // Add an event listener for window resize
+    const setGalleryWidth = () => {
+      if (imageRef.current) {
+        const newWidth = imageRef.current.offsetWidth;
+        setImageWidth(newWidth);
+      }
+    };
+    setGalleryWidth();
+    window.addEventListener("resize", setGalleryWidth);
+    return () => window.removeEventListener("resize", setGalleryWidth);
+  }, []);
+
   return (
     <div
       className={"flex flex-col lg:flex-row justify-center items-center gap-8"}
     >
-      <div className={"lg:w-1/3"}>
-        <Art image_id={image_id} width={500} height={500} />
+      <div className={"lg:w-1/3"} ref={imageRef}>
+        <Art image_id={image_id} width={imageWidth} height={imageWidth} />
       </div>
       <div
         className={"flex flex-col items-center text-center lg:w-2/3 gap-4  "}
