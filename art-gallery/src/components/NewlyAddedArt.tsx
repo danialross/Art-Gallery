@@ -23,19 +23,19 @@ const NewlyAddedArt = ({
   artworks,
 }: newlyAddedArtworkProps) => {
   const imageRef = useRef<HTMLDivElement | null>(null);
-  const [imageWidth, setImageWidth] = useState(0);
+  const [imageWidth, setImageWidth] = useState(window.innerWidth / 4); // rough estimation
 
   useEffect(() => {
     // Add an event listener for window resize
-    const setGalleryWidth = () => {
+    const resizeImage = () => {
       if (imageRef.current) {
         const newWidth = imageRef.current.offsetWidth;
         setImageWidth(newWidth);
       }
     };
-    setGalleryWidth();
-    window.addEventListener("resize", setGalleryWidth);
-    return () => window.removeEventListener("resize", setGalleryWidth);
+    resizeImage();
+    window.addEventListener("resize", resizeImage);
+    return () => window.removeEventListener("resize", resizeImage);
   }, []);
 
   return (

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 
 const About = () => {
   const [page, setPage] = useState(1);
-  const [imageWidth, setImageWidth] = useState(0);
+  const [imageWidth, setImageWidth] = useState(window.innerWidth / 4); // rough estimation of screen size
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   const {
@@ -19,14 +19,14 @@ const About = () => {
 
   useEffect(() => {
     // Add an event listener for window resize
-    const setGalleryWidth = () => {
+    const resizeGalleryImages = () => {
       if (galleryRef.current) {
         setImageWidth(galleryRef.current.offsetWidth / 3 - 16);
       }
     };
-    setGalleryWidth();
-    window.addEventListener("resize", setGalleryWidth);
-    return () => window.removeEventListener("resize", setGalleryWidth);
+    resizeGalleryImages();
+    window.addEventListener("resize", resizeGalleryImages);
+    return () => window.removeEventListener("resize", resizeGalleryImages);
   }, []);
 
   return (
