@@ -6,22 +6,19 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { getTotalArtworkPages } from "@/utils/apiUtils";
-import { Dispatch, useState, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type PaginationBarProps = {
-  page: number;
+  totalNumPages: number;
   setPage: Dispatch<SetStateAction<number>>;
+  page: number;
 };
 
-const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
-  const { data: totalPageNum = null, isLoading: isLoadingTotalPageNum } =
-    useQuery({
-      queryKey: ["pages"],
-      queryFn: getTotalArtworkPages,
-    });
-
+const PaginationBar = ({
+  page,
+  setPage,
+  totalNumPages,
+}: PaginationBarProps) => {
   return (
     <Pagination>
       <PaginationContent>
@@ -55,15 +52,7 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
           <p className={"p-2 underline text-small sm:text-medium"}>{page}</p>
         </PaginationItem>
 
-        {isLoadingTotalPageNum && (
-          <PaginationItem>
-            <Button variant={"outline"} className={"text-small sm:text-medium"}>
-              <div className="h-4 bg-gray-200 rounded-full w-[50px] mb-2.5 mx-auto my-auto animate-pulse"></div>
-            </Button>
-          </PaginationItem>
-        )}
-
-        {totalPageNum && page < totalPageNum - 1 && (
+        {totalNumPages && page < totalNumPages - 1 && (
           <>
             <PaginationItem>
               <PaginationEllipsis className={"text-small sm:text-medium"} />
@@ -71,10 +60,10 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
             <PaginationItem>
               <Button
                 variant={"outline"}
-                onClick={() => setPage(totalPageNum)}
+                onClick={() => setPage(totalNumPages)}
                 className={"text-small sm:text-medium"}
               >
-                {totalPageNum}
+                {totalNumPages}
               </Button>
             </PaginationItem>
           </>
@@ -83,7 +72,7 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
           <Button
             variant={"outline"}
             onClick={() => setPage((page) => page + 1)}
-            disabled={page === totalPageNum}
+            disabled={page === totalNumPages}
             className={"text-small sm:text-medium"}
           >
             Next <ChevronRight />

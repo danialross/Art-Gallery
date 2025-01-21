@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
-import loadingImage from "@/components/LoadingImage";
 
 type ArtProps = {
   image_id: string | null;
