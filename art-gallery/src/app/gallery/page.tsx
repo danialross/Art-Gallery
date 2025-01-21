@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 
 const About = () => {
   const [page, setPage] = useState(1);
-  const [imageWidth, setImageWidth] = useState(window.innerWidth / 4); // rough estimation of screen size
+  const [imageWidth, setImageWidth] = useState(200);
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   const {

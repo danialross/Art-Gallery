@@ -16,15 +16,17 @@ type featuredArtworkProps = {
 
 const FeaturedArtworks = ({ artworks }: featuredArtworkProps) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
-  const [featureImageWidth, setFeatureImageWidth] = useState(
-    window.innerWidth / 4,
-  ); // rough estimation
+  const [featureImageWidth, setFeatureImageWidth] = useState(200);
 
   useEffect(() => {
     // Add an event listener for window resize
     const resizeCarouselImages = () => {
       if (carouselRef.current) {
-        const newWidth = carouselRef.current.offsetWidth / 3 - 16;
+        const currentCarouselSize = carouselRef.current.offsetWidth;
+        const newWidth =
+          currentCarouselSize < 768
+            ? currentCarouselSize
+            : currentCarouselSize / 3 - 16;
         const maxWidth = 400;
         if (newWidth > maxWidth) {
           setFeatureImageWidth(maxWidth);

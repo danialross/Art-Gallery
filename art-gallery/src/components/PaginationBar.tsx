@@ -30,6 +30,7 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
             variant={"outline"}
             onClick={() => setPage((page) => page - 1)}
             disabled={page === 1}
+            className={"text-small sm:text-medium"}
           >
             <ChevronLeft /> Previous
           </Button>
@@ -37,7 +38,11 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
         {page > 2 && (
           <>
             <PaginationItem>
-              <Button variant={"outline"} onClick={() => setPage(1)}>
+              <Button
+                variant={"outline"}
+                onClick={() => setPage(1)}
+                className={"text-small sm:text-medium"}
+              >
                 1
               </Button>
             </PaginationItem>
@@ -47,12 +52,12 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
           </>
         )}
         <PaginationItem>
-          <p className={"p-2 underline"}>{page}</p>
+          <p className={"p-2 underline text-small sm:text-medium"}>{page}</p>
         </PaginationItem>
 
         {isLoadingTotalPageNum && (
           <PaginationItem>
-            <Button variant={"outline"}>
+            <Button variant={"outline"} className={"text-small sm:text-medium"}>
               <div className="h-4 bg-gray-200 rounded-full w-[50px] mb-2.5 mx-auto my-auto animate-pulse"></div>
             </Button>
           </PaginationItem>
@@ -61,10 +66,14 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
         {totalPageNum && page < totalPageNum - 1 && (
           <>
             <PaginationItem>
-              <PaginationEllipsis />
+              <PaginationEllipsis className={"text-small sm:text-medium"} />
             </PaginationItem>
             <PaginationItem>
-              <Button variant={"outline"} onClick={() => setPage(totalPageNum)}>
+              <Button
+                variant={"outline"}
+                onClick={() => setPage(totalPageNum)}
+                className={"text-small sm:text-medium"}
+              >
                 {totalPageNum}
               </Button>
             </PaginationItem>
@@ -75,6 +84,7 @@ const PaginationBar = ({ page, setPage }: PaginationBarProps) => {
             variant={"outline"}
             onClick={() => setPage((page) => page + 1)}
             disabled={page === totalPageNum}
+            className={"text-small sm:text-medium"}
           >
             Next <ChevronRight />
           </Button>

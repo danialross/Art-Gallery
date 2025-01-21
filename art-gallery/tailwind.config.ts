@@ -51,9 +51,9 @@ export default {
         minHeight: "675px",
       },
       fontSize: {
-        small: "0.5rem",
+        small: "0.7rem",
         medium: "1rem",
-        large: "1.5rem",
+        large: "1.3rem",
       },
       padding: {
         xAxis: "120px",

@@ -13,17 +13,9 @@ type newlyAddedArtworkProps = {
   artworks: Artwork[];
 };
 
-const NewlyAddedArt = ({
-  // image_id,
-  // artist_title,
-  // title,
-  // description,
-  // place_of_origin,
-  // date_display,
-  artworks,
-}: newlyAddedArtworkProps) => {
+const NewlyAddedArt = ({ artworks }: newlyAddedArtworkProps) => {
   const imageRef = useRef<HTMLDivElement | null>(null);
-  const [imageWidth, setImageWidth] = useState(window.innerWidth / 4); // rough estimation
+  const [imageWidth, setImageWidth] = useState(200);
 
   useEffect(() => {
     // Add an event listener for window resize
