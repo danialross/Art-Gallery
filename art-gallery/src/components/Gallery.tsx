@@ -2,7 +2,7 @@
 import Art from "@/components/Art";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getArtworkUsingQuery } from "@/utils/apiUtils";
+import { getArtworks } from "@/utils/apiUtils";
 import { Artwork } from "@/types";
 
 type GalleryProps = {
@@ -20,7 +20,7 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
     isSuccess: isSuccessQueryArtworks,
   } = useQuery({
     queryKey: ["gallery", page],
-    queryFn: () => getArtworkUsingQuery("", page, 9),
+    queryFn: () => getArtworks(9, page, false),
   });
 
   useEffect(() => {

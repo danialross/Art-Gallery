@@ -23,13 +23,18 @@ export const getTotalArtworkPages = async (): Promise<number> => {
   }
 };
 
-export const getLatestArtworks = async (limit: number): Promise<Artwork[]> => {
+export const getArtworks = async (
+  limit: number,
+  page: number,
+  isBoosted: boolean,
+): Promise<Artwork[]> => {
   try {
     const result = await axios.get(artworkInfoUrl, {
       params: {
-        is_boosted: false,
-        limit: limit,
-        fields: fields,
+        page,
+        is_boosted: isBoosted,
+        limit,
+        fields,
       },
     });
     return result.data.data || [];
@@ -63,38 +68,13 @@ export const getArtworksImage = async (
   }
 };
 
-export const getFeaturedArtworks = async (): Promise<Artwork[]> => {
-  try {
-    const result = await axios.get(`${artworkInfoUrl}`, {
-      params: {
-        is_boosted: true,
-        limit: 6,
-        fields: fields,
-      },
-    });
-    return result.data.data || [];
-  } catch (e: unknown) {
-    if (axios.isAxiosError(e)) {
-      console.error("Error retrieving featured artworks : ", e);
-    } else {
-      console.error("Error retrieving featured artworks");
-    }
-    return [];
-  }
-};
-
 export const getArtworkUsingQuery = async (
   query: string = "",
-  page = 1,
-  limit = 9,
 ): Promise<Artwork[]> => {
   try {
     const result = await axios.get(`${artworkInfoUrl}/search`, {
       params: {
-        limit: limit,
-        fields: fields,
         q: query,
-        page: page,
       },
     });
     return result.data.data || [];
