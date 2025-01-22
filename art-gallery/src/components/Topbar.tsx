@@ -30,7 +30,7 @@ const Topbar = ({ children }: TopbarProps) => {
     <div className={"relative overflow-x-hidden"}>
       <div
         className={
-          "h-[70px] w-full min-w-minWidth xPadding overflow-x-hidden bg-primary flex justify-between items-center"
+          "h-[80px] w-full min-w-minWidth xPadding overflow-x-hidden bg-primary flex justify-between items-center"
         }
       >
         <Link
@@ -64,29 +64,29 @@ const Topbar = ({ children }: TopbarProps) => {
       </div>
       {/*Modal*/}
       <div
-        className={`absolute bg-white w-screen min-w-minWidth sm:hidden  flex justify-center transition-transform duration-200 ease-in-out top-0 right-0 ${isDropdownOpen ? "translate-x-0" : "translate-x-full"} `}
+        className={`absolute z-50 bg-white w-screen min-w-minWidth sm:hidden  flex justify-center transition-transform duration-200 ease-in-out top-0 right-0 ${isDropdownOpen ? "translate-x-0" : "translate-x-full"} `}
       >
-        <div className={"w-4/5 h-64 flex flex-col justify-evenly text-end"}>
-          <button className={"w-full flex justify-end"} onClick={closeDropdown}>
+        <div className={"w-4/5 h-64 flex flex-col justify-evenly items-end"}>
+          <button className={"flex justify-end w-fit"} onClick={closeDropdown}>
             <IoMdClose size={24} />
           </button>
           <Link
             href="/gallery"
-            className={"hover:opacity-40 fadeInOut"}
+            className={"hover:opacity-40 fadeInOut w-fit"}
             onClick={closeDropdown}
           >
             Gallery
           </Link>
           <Link
             href="/search"
-            className={"hover:opacity-40 fadeInOut"}
+            className={"hover:opacity-40 fadeInOut w-fit"}
             onClick={closeDropdown}
           >
             Search
           </Link>
           <Link
             href="/about"
-            className={"hover:opacity-40 fadeInOut"}
+            className={"hover:opacity-40 fadeInOut w-fit"}
             onClick={closeDropdown}
           >
             About

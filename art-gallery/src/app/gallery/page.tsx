@@ -6,7 +6,7 @@ const About = async () => {
   const totalArtworkPages = await getTotalArtworkPages();
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
-      <h1 className={"text-large mb-4 w-full"}>Gallery</h1>
+      <h1 className={"font-bold text-large mb-4 w-full"}>Gallery</h1>
       <GalleryWithPagination
         totalNumPages={totalArtworkPages}
         galleryArtworks={galleryArtworks}
