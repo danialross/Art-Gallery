@@ -38,13 +38,11 @@ const Art = ({ image_id, width, height }: ArtProps) => {
   }, [image_id]);
 
   return url ? (
-    <div className={"flex justify-center items-center"}>
+    <div className={"flex justify-center items-center z-0"}>
       <Image
         src={url}
         alt={"artwork"}
-        style={{
-          objectFit: "contain",
-        }}
+        className={"object-contain"}
         width={width}
         height={height}
       />

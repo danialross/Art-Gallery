@@ -53,7 +53,7 @@ export default {
       fontSize: {
         small: "0.7rem",
         medium: "1rem",
-        large: "1.3rem",
+        large: "1.5rem",
       },
       padding: {
         xAxis: "120px",
