@@ -6,7 +6,7 @@ const fields =
 const artworkInfoUrl = `https://api.artic.edu/api/v1/artworks`;
 
 const getArtworkImageUrl = (image_id: string) => {
-  return `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`;
+  return `https://www.artic.edu/iiif/2/${image_id}/full/600,/0/default.jpg`;
 };
 
 export const getTotalArtworkPages = async (): Promise<number> => {
@@ -37,7 +37,10 @@ export const getArtworks = async (
         fields,
       },
     });
-    return result.data.data || [];
+    return result.data.data.map((item: Artwork) => ({
+      ...item,
+      image_id: item.image_id || "",
+    }));
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
       console.error("Error getting latest artwork : ", e.message);

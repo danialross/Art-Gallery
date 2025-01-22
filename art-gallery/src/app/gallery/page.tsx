@@ -1,8 +1,4 @@
-import {
-  getArtworks,
-  getArtworkUsingQuery,
-  getTotalArtworkPages,
-} from "@/utils/apiUtils";
+import { getArtworks, getTotalArtworkPages } from "@/utils/apiUtils";
 import GalleryWithPagination from "@/components/GalleryWithPagination";
 
 const About = async () => {

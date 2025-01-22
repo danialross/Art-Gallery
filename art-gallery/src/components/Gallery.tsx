@@ -13,14 +13,16 @@ type GalleryProps = {
 export default function Gallery({ galleryArtworks, page }: GalleryProps) {
   const [imageWidth, setImageWidth] = useState(200);
   const galleryRef = useRef<HTMLDivElement | null>(null);
-  const [artworks, setArtworks] = useState<Artwork[] | null[]>(galleryArtworks);
+  const [artworks, setArtworks] = useState<Artwork[]>(galleryArtworks);
 
   const {
-    data = [null, null, null, null, null, null, null, null, null],
+    data,
     isSuccess: isSuccessQueryArtworks,
+    isLoading: isLoadingQueryArtworks,
   } = useQuery({
     queryKey: ["gallery", page],
     queryFn: () => getArtworks(9, page, false),
+    enabled: page !== 1,
   });
 
   useEffect(() => {
@@ -36,11 +38,16 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
   }, []);
 
   useEffect(() => {
-    setArtworks(data);
+    if (isSuccessQueryArtworks) {
+      setArtworks(data);
+    }
   }, [isSuccessQueryArtworks]);
 
   return (
-    <>
+    <div className={"relative "}>
+      {isLoadingQueryArtworks && (
+        <div className={"absolute w-full h-full backdrop-blur"} />
+      )}
       <div
         className={"flex flex-wrap gap-4 justify-center my-8"}
         ref={galleryRef}
@@ -54,6 +61,6 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
