@@ -4,9 +4,10 @@ import { Artwork } from "@/types";
 const fields =
   "id,description,date_display,image_id,place_of_origin,artist_title,title";
 const artworkInfoUrl = `https://api.artic.edu/api/v1/artworks`;
+const imageSizes = [843, 600, 400, 200];
 
-const getArtworkImageUrl = (image_id: string) => {
-  return `https://www.artic.edu/iiif/2/${image_id}/full/600,/0/default.jpg`;
+const getArtworkImageUrl = (image_id: string, size: number) => {
+  return `https://www.artic.edu/iiif/2/${image_id}/full/${size},/0/default.jpg`;
 };
 
 export const getTotalArtworkPages = async (): Promise<number> => {
@@ -57,18 +58,18 @@ export const getArtworksImage = async (
   if (image_id === null) {
     return null;
   }
-  const url = getArtworkImageUrl(image_id);
-  try {
-    const result = await axios.get(url, { responseType: "blob" });
-    return result.data || null;
-  } catch (e: unknown) {
-    if (axios.isAxiosError(e)) {
-      console.error("Error getting artwork image : ", e.message);
-    } else {
-      console.error("Error getting artwork image");
+  let currSizeIndex = 0;
+  while (currSizeIndex < imageSizes.length - 1) {
+    const url = getArtworkImageUrl(image_id, imageSizes[currSizeIndex]);
+    try {
+      const result = await axios.get(url, { responseType: "blob" });
+      return result.data || null;
+    } catch (_) {
+      currSizeIndex++;
     }
-    return null;
   }
+  console.error("Error getting artwork image");
+  return null;
 };
 
 export const getArtworkUsingQuery = async (
