@@ -13,7 +13,7 @@ type newlyAddedArtworkProps = {
   artworks: Artwork[];
 };
 
-const NewlyAddedArt = ({ artworks }: newlyAddedArtworkProps) => {
+const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const [imageWidth, setImageWidth] = useState(200);
 
@@ -32,8 +32,6 @@ const NewlyAddedArt = ({ artworks }: newlyAddedArtworkProps) => {
 
   return (
     <>
-      <h1 className={"text-large font-bold"}>Newly Added</h1>
-      <p>Freshly arrived and ready to inspire.</p>
       <div className={"py-8 space-y-16"}>
         {artworks.map((artwork: Artwork) => (
           <div
@@ -113,4 +111,4 @@ const NewlyAddedArt = ({ artworks }: newlyAddedArtworkProps) => {
   );
 };
 
-export default NewlyAddedArt;
+export default ArtWithDetails;

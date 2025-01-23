@@ -16,11 +16,30 @@ export const getTotalArtworkPages = async (): Promise<number> => {
     return result.data.pagination.total_pages;
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
-      console.error("Error retrieving total number of pages for artwork : ", e);
+      console.error(
+        "Error retrieving total number of pages for artwork : ",
+        e.message,
+      );
     } else {
       console.error("Error retrieving total number of pages for artwork");
     }
     return -1;
+  }
+};
+
+export const getArtworkUsingId = async (
+  artworkId: string,
+): Promise<Artwork | null> => {
+  try {
+    const result = await axios.get(`${artworkInfoUrl}/${artworkId}`);
+    return result.data.data;
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      console.error("Error retrieving artworks using ids", e.message);
+    } else {
+      console.error("Error retrieving artworks using ids");
+    }
+    return null;
   }
 };
 
@@ -65,26 +84,31 @@ export const getArtworksImage = async (
       const result = await axios.get(url, { responseType: "blob" });
       return result.data || null;
     } catch (_) {
+      console.log(
+        `${image_id} size ${imageSizes[currSizeIndex]} not available, trying size ${imageSizes[currSizeIndex + 1]}`,
+      );
       currSizeIndex++;
     }
   }
-  console.error("Error getting artwork image");
   return null;
 };
 
-export const getArtworkUsingQuery = async (
+export const getArtworkIdsUsingQuery = async (
   query: string = "",
-): Promise<Artwork[]> => {
+): Promise<string[]> => {
   try {
     const result = await axios.get(`${artworkInfoUrl}/search`, {
       params: {
         q: query,
+        limit: 9,
       },
     });
-    return result.data.data || [];
+    const ids: string[] = [];
+    result.data.data.forEach((item: { id: string }) => ids.push(item.id));
+    return ids || [];
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
-      console.error("Error retrieving queried artworks : ", e);
+      console.error("Error retrieving queried artworks : ", e.message);
     } else {
       console.error("Error retrieving queried artworks");
     }
