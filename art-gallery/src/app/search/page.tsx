@@ -24,7 +24,6 @@ const About = () => {
       setSearch(inputValue);
     }
   };
-  console.log(searchedArtworks);
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
       <div className={"pb-8"}>

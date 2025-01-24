@@ -17,14 +17,27 @@ export const processNullValues = (artworks: Artwork[]): Artwork[] => {
   return artworksCopy;
 };
 
-export const getManyArtworksUsingId = (artworkIds: string[]) => {
+export const getManyArtworksUsingId = async (artworkIds: string[]) => {
   const artworks: Artwork[] = [];
-  artworkIds.forEach(async (id: string) => {
+  console.log(artworkIds);
+  const promises = artworkIds.map(async (id: string) => {
     const artwork = await getArtworkUsingId(id);
+
+    // console.log(!!artwork);
     if (artwork) {
-      artworks.push(artwork);
+      return artwork;
+    } else {
+      return null;
     }
   });
-
+  const resultOfPromises = await Promise.all(promises);
+  resultOfPromises.forEach((promise) => {
+    if (promise != null) {
+      artworks.push(promise);
+    }
+  });
+  console.log(resultOfPromises);
   return processNullValues(artworks);
+
+  // return processNullValues(artworks);
 };
