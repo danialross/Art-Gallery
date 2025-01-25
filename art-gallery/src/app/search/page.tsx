@@ -27,12 +27,11 @@ const Search = () => {
     // using empty artwork for loading first then if query fails it will show null
     data: searchedArtworks,
     isLoading: isLoadingSearchingArtworks,
-    isSuccess: isSuccessSearchingArtworks,
   } = useQuery({
-    queryKey: [search],
+    queryKey: ["search", search],
     queryFn: () => getArtworksFromSearch(search),
+    staleTime: 1000 * 60 * 2,
     gcTime: 1000 * 60 * 2,
-    staleTime: 1000 * 60 * 1,
   });
 
   const handleEnterPress = (e: KeyboardEvent) => {
@@ -46,13 +45,16 @@ const Search = () => {
       setArtworks(emptyArtworks);
     }
   }, [isLoadingSearchingArtworks]);
-
   useEffect(() => {
-    if (isSuccessSearchingArtworks) {
-      setArtworks(searchedArtworks);
-    }
-  }, [isSuccessSearchingArtworks]);
+    console.log("issuceess?");
+    if (searchedArtworks) {
+      console.log("issuceess");
 
+      setArtworks(searchedArtworks);
+      console.log(searchedArtworks);
+    }
+  }, [searchedArtworks]);
+  console.log(searchedArtworks);
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
       <div className={"pb-8"}>
