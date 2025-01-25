@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Artwork } from "@/types";
+import { processNullValues } from "@/utils/utils";
 
 const fields =
   "id,description,date_display,image_id,place_of_origin,artist_title,title";
@@ -114,4 +115,28 @@ export const getArtworkIdsUsingQuery = async (
     }
     return [];
   }
+};
+
+export const getManyArtworksUsingId = async (artworkIds: string[]) => {
+  const artworks: Artwork[] = [];
+  const promises = artworkIds.map(async (id: string) => {
+    const artwork = await getArtworkUsingId(id);
+    if (artwork) {
+      return artwork;
+    } else {
+      return null;
+    }
+  });
+  const resultOfPromises = await Promise.all(promises);
+  resultOfPromises.forEach((promise) => {
+    if (promise != null) {
+      artworks.push(promise);
+    }
+  });
+  return processNullValues(artworks);
+};
+
+export const getArtworksFromSearch = async (search: string) => {
+  const artworkIds = await getArtworkIdsUsingQuery(search);
+  return await getManyArtworksUsingId(artworkIds);
 };

@@ -10,7 +10,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 type newlyAddedArtworkProps = {
-  artworks: Artwork[];
+  artworks: Artwork[] | null[];
 };
 
 const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
@@ -33,16 +33,16 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
   return (
     <>
       <div className={"py-8 space-y-16"}>
-        {artworks.map((artwork: Artwork) => (
+        {artworks.map((artwork: Artwork | null, index: number) => (
           <div
             className={
               "flex flex-col lg:flex-row justify-center items-center gap-8"
             }
-            key={`NewlyAddedArt-${artwork.image_id}`}
+            key={`NewlyAddedArt-${index}`}
           >
             <div className={"lg:w-1/3"} ref={imageRef}>
               <Art
-                image_id={artwork.image_id}
+                image_id={artwork ? artwork.image_id : ""}
                 width={imageWidth}
                 height={imageWidth}
               />
@@ -52,7 +52,7 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
                 "flex flex-col items-center text-center lg:w-2/3 gap-4  "
               }
             >
-              {artwork.artist_title ? (
+              {artwork?.artist_title ? (
                 <p>{artwork.artist_title}</p>
               ) : (
                 <div className="w-full animate-pulse">
@@ -60,16 +60,16 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
                 </div>
               )}
 
-              {artwork.title &&
-              artwork.date_display &&
-              artwork.place_of_origin ? (
+              {artwork?.title &&
+              artwork?.date_display &&
+              artwork?.place_of_origin ? (
                 <p>{` ${artwork.title}, ${artwork.date_display}, ${artwork.place_of_origin}`}</p>
               ) : (
                 <div className="w-full animate-pulse">
                   <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[490px] mb-2.5 mx-auto"></div>
                 </div>
               )}
-              {artwork.description ? (
+              {artwork?.description ? (
                 <>
                   <div
                     dangerouslySetInnerHTML={{ __html: artwork.description }}
