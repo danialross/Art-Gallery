@@ -91,6 +91,7 @@ export const getArtworksImage = async (
       currSizeIndex++;
     }
   }
+  console.error("Error getting image");
   return null;
 };
 

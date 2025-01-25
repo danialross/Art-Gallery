@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
+
 type ArtProps = {
   image_id: string | null;
   width: number;
@@ -18,20 +19,23 @@ const Art = ({ image_id, width, height }: ArtProps) => {
     const getBlobFromImageId = async () => {
       if (image_id === "") {
         setUrl("/no-image.png");
+        return;
       } else if (image_id !== null) {
         const blob = await getArtworksImage(image_id);
         //check if req passed
         if (blob instanceof Blob) {
           newUrl = URL.createObjectURL(blob);
           setUrl(newUrl);
+          return;
         }
       }
+      setUrl(null);
     };
 
     getBlobFromImageId();
 
     return () => {
-      if (url) {
+      if (url && url !== "/no-image.png") {
         URL.revokeObjectURL(newUrl);
       }
     };
