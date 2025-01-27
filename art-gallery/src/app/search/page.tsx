@@ -7,6 +7,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import ArtWithDetails from "@/components/ArtWithDetails";
 import { getArtworksFromSearch } from "@/utils/apiUtils";
 import { Artwork } from "@/types";
+import PaginationBar from "@/components/PaginationBar";
 
 const emptyArtwork: Artwork = {
   artist_title: null,
@@ -23,16 +24,14 @@ const Search = () => {
   const [artworks, setArtworks] = useState<Artwork[]>(emptyArtworks);
   const [inputValue, setInputValue] = useState("");
   const [search, setSearch] = useState("");
-  const {
-    // using empty artwork for loading first then if query fails it will show null
-    data: searchedArtworks,
-    isLoading: isLoadingSearchingArtworks,
-  } = useQuery({
-    queryKey: ["search", search],
-    queryFn: () => getArtworksFromSearch(search),
-    staleTime: 1000 * 60 * 2,
-    gcTime: 1000 * 60 * 2,
-  });
+  const [searchPage, setSearchPage] = useState(1);
+  const { data: searchedArtworks, isLoading: isLoadingSearchingArtworks } =
+    useQuery({
+      queryKey: ["search", search, searchPage],
+      queryFn: () => getArtworksFromSearch(search, searchPage),
+      staleTime: 1000 * 60 * 2,
+      gcTime: 1000 * 60 * 2,
+    });
 
   const handleEnterPress = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -45,16 +44,18 @@ const Search = () => {
       setArtworks(emptyArtworks);
     }
   }, [isLoadingSearchingArtworks]);
-  useEffect(() => {
-    console.log("issuceess?");
-    if (searchedArtworks) {
-      console.log("issuceess");
 
-      setArtworks(searchedArtworks);
-      console.log(searchedArtworks);
+  useEffect(() => {
+    if (searchedArtworks) {
+      setArtworks(searchedArtworks.artworks);
     }
   }, [searchedArtworks]);
-  console.log(searchedArtworks);
+
+  useEffect(() => {
+    console.log("triggereed");
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
+  }, [searchPage]);
+
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
       <div className={"pb-8"}>
@@ -65,6 +66,7 @@ const Search = () => {
           gems, explore different styles, and bring your vision to life.
         </p>
       </div>
+
       <div className={"w-full flex justify-center"}>
         <div className={"w-full sm:w-[500px] flex gap-4"}>
           <Input
@@ -88,6 +90,15 @@ const Search = () => {
       ) : (
         <p className={"py-4 w-full text-center"}>{`No Result`}</p>
       )}
+      <PaginationBar
+        totalNumPages={
+          searchedArtworks?.totalPages && searchedArtworks?.totalPages < 100
+            ? searchedArtworks?.totalPages
+            : 100
+        }
+        setPage={setSearchPage}
+        page={searchPage}
+      />
     </div>
   );
 };

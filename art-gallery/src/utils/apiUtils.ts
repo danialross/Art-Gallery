@@ -97,24 +97,27 @@ export const getArtworksImage = async (
 
 export const getArtworkIdsUsingQuery = async (
   query: string = "",
-): Promise<string[]> => {
+  page: number,
+): Promise<{ totalPages: number; artworkIds: string[] } | null> => {
   try {
     const result = await axios.get(`${artworkInfoUrl}/search`, {
       params: {
+        page: page,
         q: query,
         limit: 9,
       },
     });
     const ids: string[] = [];
+    const pageNum = result.data.pagination.total_pages;
     result.data.data.forEach((item: { id: string }) => ids.push(item.id));
-    return ids || [];
+    return { totalPages: pageNum, artworkIds: ids };
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
       console.error("Error retrieving queried artworks : ", e.message);
     } else {
       console.error("Error retrieving queried artworks");
     }
-    return [];
+    return null;
   }
 };
 
@@ -137,7 +140,17 @@ export const getManyArtworksUsingId = async (artworkIds: string[]) => {
   return processNullValues(artworks);
 };
 
-export const getArtworksFromSearch = async (search: string) => {
-  const artworkIds = await getArtworkIdsUsingQuery(search);
-  return await getManyArtworksUsingId(artworkIds);
+export const getArtworksFromSearch = async (
+  search: string,
+  page: number,
+): Promise<{ totalPages: number; artworks: Artwork[] } | null> => {
+  const searchResults = await getArtworkIdsUsingQuery(search, page);
+
+  if (!searchResults) {
+    return null;
+  }
+
+  const { totalPages, artworkIds } = searchResults;
+  const artworks = await getManyArtworksUsingId(artworkIds);
+  return { totalPages, artworks };
 };
