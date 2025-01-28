@@ -36,7 +36,7 @@ const Topbar = ({ children }: TopbarProps) => {
         <Link
           href={"/"}
           className={
-            "flex  items-center gap-4 font-bold hover:opacity-hoverEffect fadeInOut"
+            "flex  items-center gap-4 font-bold hover:opacity-hover-effect hover-effect"
           }
         >
           <div className={"h-[48px] w-[48px]"}>
@@ -49,14 +49,14 @@ const Topbar = ({ children }: TopbarProps) => {
             <Link
               key={link.label}
               href={link.href}
-              className={"hover:opacity-hoverEffect fadeInOut ml-auto "}
+              className={"hover:opacity-hover-effect hover-effect ml-auto"}
             >
               {link.label}
             </Link>
           ))}
         </div>
         <button
-          className={"sm:hidden hover:opacity-hoverEffect fadeInOut"}
+          className={"sm:hidden hover:opacity-hover-effect fadeInOut"}
           onClick={openDropdown}
         >
           <GiHamburgerMenu size="32px" />

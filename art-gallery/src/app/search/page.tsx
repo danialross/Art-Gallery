@@ -25,6 +25,7 @@ const Search = () => {
   const [inputValue, setInputValue] = useState("");
   const [search, setSearch] = useState("");
   const [searchPage, setSearchPage] = useState(1);
+  const [startAnimation, setStartAnimation] = useState(false);
   const { data: searchedArtworks, isLoading: isLoadingSearchingArtworks } =
     useQuery({
       queryKey: ["search", search, searchPage],
@@ -52,12 +53,16 @@ const Search = () => {
   }, [searchedArtworks]);
 
   useEffect(() => {
-    console.log("triggereed");
     setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
   }, [searchPage]);
+  useEffect(() => {
+    setStartAnimation(true);
+  }, []);
 
   return (
-    <div className={"minDimensions bg-background xPadding yPadding"}>
+    <div
+      className={`minDimensions bg-background xPadding yPadding fade-in ${startAnimation ? "opacity-100" : "opacity-0"}`}
+    >
       <div className={"pb-8"}>
         <h1 className={"font-bold text-large"}>Search</h1>
         <p>

@@ -30,85 +30,79 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
     return () => window.removeEventListener("resize", resizeImage);
   }, []);
 
-  return (
-    <>
-      <div className={"py-8 space-y-16"}>
-        {artworks.map((artwork: Artwork | null, index: number) => (
-          <div
-            className={
-              "flex flex-col lg:flex-row justify-center items-center gap-8"
-            }
-            key={`NewlyAddedArt-${index}`}
-          >
-            <div className={"lg:w-1/3"} ref={imageRef}>
-              <Art
-                image_id={artwork ? artwork.image_id : ""}
-                width={imageWidth}
-                height={imageWidth}
-              />
+  return artworks.map((artwork: Artwork | null, index: number) => {
+    return (
+      <div
+        className={
+          "flex flex-col lg:flex-row justify-center items-center py-8 gap-8"
+        }
+        key={`NewlyAddedArt-${index}`}
+      >
+        <div className={"lg:w-1/3"} ref={imageRef}>
+          <Art
+            image_id={artwork ? artwork.image_id : ""}
+            width={imageWidth}
+            height={imageWidth}
+          />
+        </div>
+        <div
+          className={"flex flex-col items-center text-center lg:w-2/3 gap-4  "}
+        >
+          {artwork?.artist_title ? (
+            <p>{artwork.artist_title}</p>
+          ) : (
+            <div className="w-full animate-pulse">
+              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5 mx-auto"></div>
             </div>
-            <div
-              className={
-                "flex flex-col items-center text-center lg:w-2/3 gap-4  "
-              }
-            >
-              {artwork?.artist_title ? (
-                <p>{artwork.artist_title}</p>
-              ) : (
-                <div className="w-full animate-pulse">
-                  <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5 mx-auto"></div>
-                </div>
-              )}
+          )}
 
-              {artwork?.title &&
-              artwork?.date_display &&
-              artwork?.place_of_origin ? (
-                <p>{` ${artwork.title}, ${artwork.date_display}, ${artwork.place_of_origin}`}</p>
-              ) : (
-                <div className="w-full animate-pulse">
-                  <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[490px] mb-2.5 mx-auto"></div>
-                </div>
-              )}
-              {artwork?.description ? (
-                <>
-                  <div
-                    dangerouslySetInnerHTML={{ __html: artwork.description }}
-                    className={"w-full text-center hidden lg:block "}
-                  />
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="w-full lg:hidden -mt-4"
-                  >
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger className={"text-medium"}>
-                        Description
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: artwork.description,
-                          }}
-                          className={"text-medium text-center"}
-                        />
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </>
-              ) : (
-                <div className="w-full animate-pulse">
-                  <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[450px] mb-2.5 mx-auto"></div>
-                  <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[520px] mb-2.5 mx-auto"></div>
-                  <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[470px] mb-2.5 mx-auto"></div>
-                  <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] mb-2.5 mx-auto"></div>
-                </div>
-              )}
+          {artwork?.title &&
+          artwork?.date_display &&
+          artwork?.place_of_origin ? (
+            <p>{` ${artwork.title}, ${artwork.date_display}, ${artwork.place_of_origin}`}</p>
+          ) : (
+            <div className="w-full animate-pulse">
+              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[490px] mb-2.5 mx-auto"></div>
             </div>
-          </div>
-        ))}
+          )}
+          {artwork?.description ? (
+            <>
+              <div
+                dangerouslySetInnerHTML={{ __html: artwork.description }}
+                className={"w-full text-center hidden lg:block "}
+              />
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full lg:hidden -mt-4"
+              >
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className={"text-medium"}>
+                    Description
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: artwork.description,
+                      }}
+                      className={"text-medium text-center"}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </>
+          ) : (
+            <div className="w-full animate-pulse">
+              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[450px] mb-2.5 mx-auto"></div>
+              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[520px] mb-2.5 mx-auto"></div>
+              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[470px] mb-2.5 mx-auto"></div>
+              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] mb-2.5 mx-auto"></div>
+            </div>
+          )}
+        </div>
       </div>
-    </>
-  );
+    );
+  });
 };
 
 export default ArtWithDetails;

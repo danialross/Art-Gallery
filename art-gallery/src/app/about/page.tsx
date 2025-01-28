@@ -1,12 +1,18 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const About = () => {
+  const [startAnimation, setStartAnimation] = useState(false);
+
+  useEffect(() => {
+    setStartAnimation(true);
+  }, []);
+
   return (
     <div
-      className={
-        " minDimensions bg-background xPadding yPadding flex flex-col gap-8 text-medium"
-      }
+      className={`minDimensions bg-background xPadding yPadding flex flex-col gap-8 text-medium fade-in ${startAnimation ? "opacity-100" : "opacity-0"}`}
     >
       <h1 className={"text-large font-bold"}>About This Project</h1>
       <p>

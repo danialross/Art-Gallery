@@ -1,7 +1,7 @@
 import { getArtworks } from "@/utils/apiUtils";
-import ArtWithDetails from "@/components/ArtWithDetails";
 import { processNullValues } from "@/utils/utils";
 import FeaturedArtworks from "@/components/FeaturedArtworks";
+import NewlyAddedArtworks from "@/components/NewlyAddedArtworks";
 
 const Home = async () => {
   const featuredArtworks = processNullValues(await getArtworks(6, 1, true));
@@ -10,9 +10,7 @@ const Home = async () => {
   return (
     <div className={"minDimensions bg-background xPadding yPadding"}>
       <FeaturedArtworks artworks={featuredArtworks} />
-      <h1 className={"text-large font-bold"}>Newly Added</h1>
-      <p>Freshly arrived and ready to inspire.</p>
-      <ArtWithDetails artworks={latestArtworks} />
+      <NewlyAddedArtworks artworks={latestArtworks} />
     </div>
   );
 };

@@ -17,6 +17,7 @@ type featuredArtworkProps = {
 const FeaturedArtworks = ({ artworks }: featuredArtworkProps) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const [featureImageWidth, setFeatureImageWidth] = useState(200);
+  const [startAnimation, setStartAnimation] = useState(false);
 
   useEffect(() => {
     // Add an event listener for window resize
@@ -40,8 +41,12 @@ const FeaturedArtworks = ({ artworks }: featuredArtworkProps) => {
     return () => window.removeEventListener("resize", resizeCarouselImages);
   }, []);
 
+  useEffect(() => {
+    setStartAnimation(true);
+  }, []);
+
   return (
-    <>
+    <div className={`fade-in ${startAnimation ? "opacity-100" : "opacity-0"}`}>
       <h1 className={"text-large font-bold"}>Featured Artwork</h1>
       <p>
         Explore our handpicked selection of the most captivating and
@@ -75,7 +80,7 @@ const FeaturedArtworks = ({ artworks }: featuredArtworkProps) => {
           <CarouselNext />
         </Carousel>
       </div>
-    </>
+    </div>
   );
 };
 

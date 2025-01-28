@@ -24,8 +24,12 @@ body {
 }
 
 @layer utilities {
-    .fadeInOut {
-        @apply transition-opacity duration-200 ease-in-out;
+    .hover-effect {
+        @apply transition-opacity duration-200 ease-in-out
+    }
+
+    .fade-in {
+        @apply transition-opacity duration-700 ease-in-out
     }
 }
 
