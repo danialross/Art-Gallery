@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
+import FullImageOverlay from "@/components/FullImageOverlay";
 
 type ArtProps = {
   image_id: string | null;
@@ -9,16 +10,19 @@ type ArtProps = {
   height: number;
 };
 
+const noImage = "/no-image.png";
+
 // parent of this component needs to have relative
 const Art = ({ image_id, width, height }: ArtProps) => {
   const [url, setUrl] = useState<string | null>(null);
+  const [showFullImage, setShowFullImage] = useState(false);
 
   useEffect(() => {
     let newUrl: string;
 
     const getBlobFromImageId = async () => {
       if (image_id === "") {
-        setUrl("/no-image.png");
+        setUrl(noImage);
         return;
       } else if (image_id !== null) {
         const blob = await getArtworksImage(image_id);
@@ -35,20 +39,31 @@ const Art = ({ image_id, width, height }: ArtProps) => {
     getBlobFromImageId();
 
     return () => {
-      if (url && url !== "/no-image.png") {
+      if (url && url !== noImage) {
         URL.revokeObjectURL(newUrl);
       }
     };
   }, [image_id]);
 
   return url ? (
-    <div className={"flex justify-center items-center z-0"}>
+    <div className={"flex justify-center items-center"}>
+      <FullImageOverlay
+        url={url}
+        image_id={image_id ? image_id : ""}
+        visibilitySetter={setShowFullImage}
+        className={`image-popup ${showFullImage ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+      />
       <Image
         src={url}
         alt={"artwork"}
         className={"object-contain"}
         width={width}
         height={height}
+        onClick={() => {
+          if (url !== noImage) {
+            setShowFullImage(true);
+          }
+        }}
       />
     </div>
   ) : (

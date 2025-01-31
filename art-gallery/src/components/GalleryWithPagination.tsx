@@ -32,7 +32,7 @@ const GalleryWithPagination = ({
           way.
         </p>
       </div>
-      <div>
+      <div className={"py-4"}>
         <PaginationBar
           page={page}
           setPage={setPage}
