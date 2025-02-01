@@ -28,9 +28,12 @@ export default function FullImageOverlay({
           visibilitySetter(false);
         }}
       >
-        <ImCross className={"absolute top-5 right-5"} size={20} />
+        <ImCross
+          className={"absolute top-5 right-5 icon-grow-effect"}
+          size={20}
+        />
       </button>
-      <div className={"flex justify-center"}>
+      <div className={"flex justify-center icon-grow-effect"}>
         <Button onClick={() => downloadImage(url, image_id)}>
           <MdOutlineFileDownload size={25} /> Download
         </Button>

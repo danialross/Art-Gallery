@@ -3,19 +3,22 @@ import { useEffect, useState } from "react";
 import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
 import FullImageOverlay from "@/components/FullImageOverlay";
+import { useRouter } from "next/navigation";
 
 type ArtProps = {
   image_id: string | null;
   width: number;
   height: number;
+  isNavigate?: boolean;
 };
 
 const noImage = "/no-image.png";
 
 // parent of this component needs to have relative
-const Art = ({ image_id, width, height }: ArtProps) => {
+const Art = ({ image_id, width, height, isNavigate = false }: ArtProps) => {
   const [url, setUrl] = useState<string | null>(null);
   const [showFullImage, setShowFullImage] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     let newUrl: string;
@@ -51,19 +54,19 @@ const Art = ({ image_id, width, height }: ArtProps) => {
         url={url}
         image_id={image_id ? image_id : ""}
         visibilitySetter={setShowFullImage}
-        className={`image-popup ${showFullImage ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`overlay-transition ${showFullImage ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       />
       <Image
         src={url}
         alt={"artwork"}
-        className={"object-contain grow-effect"}
+        className={"object-contain art-grow-effect"}
         width={width}
         height={height}
-        onClick={() => {
-          if (url !== noImage) {
-            setShowFullImage(true);
-          }
-        }}
+        onClick={
+          isNavigate && image_id
+            ? () => router.push(`/gallery/${image_id}`)
+            : () => setShowFullImage(true)
+        }
       />
     </div>
   ) : (

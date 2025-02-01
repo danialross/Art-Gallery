@@ -73,6 +73,7 @@ const FeaturedArtworks = ({ artworks }: featuredArtworkProps) => {
                   image_id={artwork ? artwork.image_id : ""}
                   width={featureImageWidth}
                   height={featureImageWidth}
+                  isNavigate={true}
                 />
               </CarouselItem>
             ))}

@@ -23,6 +23,8 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
     queryKey: ["gallery", page],
     queryFn: () => getArtworks(9, page, false),
     enabled: page !== 1,
+    staleTime: 1000 * 60 * 2,
+    gcTime: 1000 * 60 * 2,
   });
 
   useEffect(() => {
@@ -58,6 +60,7 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
             image_id={artwork ? artwork.image_id : ""}
             height={imageWidth}
             width={imageWidth}
+            isNavigate={true}
           />
         ))}
       </div>

@@ -154,3 +154,24 @@ export const getArtworksFromSearch = async (
   const artworks = await getManyArtworksUsingId(artworkIds);
   return { totalPages, artworks };
 };
+
+export const getArtworkByImageId = async (
+  image_id: string,
+): Promise<Artwork | null> => {
+  try {
+    const result = await axios.get(artworkInfoUrl, {
+      params: {
+        image_id,
+        fields,
+      },
+    });
+    return result.data.data[0];
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      console.log("Error retrieving artwork by image: ", e.message);
+    } else {
+      console.log("Error retrieving artwork by image");
+    }
+    return null;
+  }
+};
