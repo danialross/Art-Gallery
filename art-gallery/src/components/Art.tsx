@@ -56,7 +56,7 @@ const Art = ({ image_id, width, height }: ArtProps) => {
       <Image
         src={url}
         alt={"artwork"}
-        className={"object-contain"}
+        className={"object-contain grow-effect"}
         width={width}
         height={height}
         onClick={() => {
