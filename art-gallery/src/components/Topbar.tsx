@@ -1,10 +1,11 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { PiImagesThin } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 
 import Link from "next/link";
+import { Progress } from "@/components/ui/progress";
 
 type TopbarProps = {
   children: ReactNode;
@@ -12,6 +13,7 @@ type TopbarProps = {
 
 const Topbar = ({ children }: TopbarProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const links = [
     { href: "/gallery", label: "Gallery" },
@@ -26,6 +28,12 @@ const Topbar = ({ children }: TopbarProps) => {
     setIsDropdownOpen(true);
   };
 
+  const timer = () => {
+    setTimeout(() => setProgress(23), 200);
+    setTimeout(() => setProgress(72), 700);
+    setTimeout(() => setProgress(100), 1000);
+  };
+
   return (
     <div className={"relative overflow-x-hidden"}>
       <div
@@ -38,6 +46,7 @@ const Topbar = ({ children }: TopbarProps) => {
           className={
             "flex  items-center gap-4 font-bold hover:opacity-hover-effect hover-effect"
           }
+          onClick={timer}
         >
           <div className={"h-[48px] w-[48px]"}>
             <PiImagesThin className={"text-black w-full h-full scale-125 "} />
@@ -50,6 +59,7 @@ const Topbar = ({ children }: TopbarProps) => {
               key={link.label}
               href={link.href}
               className={"hover:opacity-hover-effect hover-effect ml-auto"}
+              onClick={timer}
             >
               {link.label}
             </Link>
@@ -73,7 +83,10 @@ const Topbar = ({ children }: TopbarProps) => {
           <Link
             href="/gallery"
             className={"hover:opacity-40 fadeInOut w-fit"}
-            onClick={closeDropdown}
+            onClick={() => {
+              closeDropdown();
+              timer();
+            }}
           >
             Gallery
           </Link>
@@ -87,12 +100,16 @@ const Topbar = ({ children }: TopbarProps) => {
           <Link
             href="/about"
             className={"hover:opacity-40 fadeInOut w-fit"}
-            onClick={closeDropdown}
+            onClick={() => {
+              closeDropdown();
+              timer();
+            }}
           >
             About
           </Link>
         </div>
       </div>
+      <Progress value={progress} />
       {children}
     </div>
   );
