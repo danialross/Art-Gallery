@@ -25,7 +25,13 @@ export default function SingleArtwork({ artwork }: SingleArtworkProps) {
       {artwork ? (
         <ArtWithDetails artworks={singleArtworkArray} />
       ) : (
-        <p>The resources does not exist.</p>
+        <div
+          className={
+            "py-8 w-full text-center font-bold text-medium sm:text-large "
+          }
+        >
+          The resource could not be retrieved.
+        </div>
       )}
     </div>
   );

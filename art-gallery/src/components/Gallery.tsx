@@ -57,6 +57,7 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
         {artworks.map((artwork, index) => (
           <Art
             key={artwork ? `gallery-${artwork.id}` : index}
+            id={artwork?.id ? artwork.id : -1}
             image_id={artwork ? artwork.image_id : ""}
             height={imageWidth}
             width={imageWidth}

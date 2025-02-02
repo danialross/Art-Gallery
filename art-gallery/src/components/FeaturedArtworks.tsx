@@ -70,6 +70,7 @@ const FeaturedArtworks = ({ artworks }: featuredArtworkProps) => {
                 {/*use loading from within art because art need to process one more step before showing image*/}
                 {/*using useQuery isLoading causes the image to flash to another loading state before showing image*/}
                 <Art
+                  id={artwork?.id ? artwork.id : -1}
                   image_id={artwork ? artwork.image_id : ""}
                   width={featureImageWidth}
                   height={featureImageWidth}

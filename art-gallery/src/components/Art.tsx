@@ -6,6 +6,7 @@ import FullImageOverlay from "@/components/FullImageOverlay";
 import { useRouter } from "next/navigation";
 
 type ArtProps = {
+  id: number;
   image_id: string | null;
   width: number;
   height: number;
@@ -15,11 +16,10 @@ type ArtProps = {
 const noImage = "/no-image.png";
 
 // parent of this component needs to have relative
-const Art = ({ image_id, width, height, isNavigate = false }: ArtProps) => {
+const Art = ({ id, image_id, width, height, isNavigate = false }: ArtProps) => {
   const [url, setUrl] = useState<string | null>(null);
   const [showFullImage, setShowFullImage] = useState(false);
   const router = useRouter();
-
   useEffect(() => {
     let newUrl: string;
 
@@ -64,7 +64,7 @@ const Art = ({ image_id, width, height, isNavigate = false }: ArtProps) => {
         height={height}
         onClick={
           isNavigate && image_id
-            ? () => router.push(`/gallery/${image_id}`)
+            ? () => router.push(`/gallery/${id}`)
             : () => setShowFullImage(true)
         }
       />
