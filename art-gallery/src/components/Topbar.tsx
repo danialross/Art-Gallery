@@ -14,6 +14,7 @@ type TopbarProps = {
 const Topbar = ({ children }: TopbarProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [currentPage, setCurrentPage] = useState("/");
 
   const links = [
     { href: "/gallery", label: "Gallery" },
@@ -30,7 +31,15 @@ const Topbar = ({ children }: TopbarProps) => {
 
   const timer = () => {
     setTimeout(() => setProgress(23), 400);
-    setTimeout(() => setProgress(100), 1000);
+    setTimeout(() => setProgress(67), 1000);
+    setTimeout(() => setProgress(100), 1500);
+  };
+
+  const handleProgressAnimation = (nextRoute: string) => {
+    if (nextRoute !== currentPage) {
+      timer();
+      setCurrentPage(nextRoute);
+    }
   };
 
   return (
@@ -45,7 +54,7 @@ const Topbar = ({ children }: TopbarProps) => {
           className={
             "flex  items-center gap-4 font-bold hover:opacity-hover-effect hover-effect"
           }
-          onClick={timer}
+          onClick={() => handleProgressAnimation("/")}
         >
           <div className={"h-[48px] w-[48px]"}>
             <PiImagesThin className={"text-black w-full h-full scale-125 "} />
@@ -58,7 +67,7 @@ const Topbar = ({ children }: TopbarProps) => {
               key={link.label}
               href={link.href}
               className={"hover:opacity-hover-effect hover-effect ml-auto"}
-              onClick={timer}
+              onClick={() => handleProgressAnimation(link.href)}
             >
               {link.label}
             </Link>
@@ -79,33 +88,19 @@ const Topbar = ({ children }: TopbarProps) => {
           <button className={"flex justify-end w-fit"} onClick={closeDropdown}>
             <IoMdClose size={24} />
           </button>
-          <Link
-            href="/gallery"
-            className={"hover:opacity-40 fadeInOut w-fit"}
-            onClick={() => {
-              closeDropdown();
-              timer();
-            }}
-          >
-            Gallery
-          </Link>
-          <Link
-            href="/search"
-            className={"hover:opacity-40 fadeInOut w-fit"}
-            onClick={closeDropdown}
-          >
-            Search
-          </Link>
-          <Link
-            href="/about"
-            className={"hover:opacity-40 fadeInOut w-fit"}
-            onClick={() => {
-              closeDropdown();
-              timer();
-            }}
-          >
-            About
-          </Link>
+          {links.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={"hover:opacity-40 fadeInOut w-fit"}
+              onClick={() => {
+                closeDropdown();
+                handleProgressAnimation(link.href);
+              }}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
       <Progress value={progress} />
