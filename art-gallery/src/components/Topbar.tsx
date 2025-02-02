@@ -29,8 +29,7 @@ const Topbar = ({ children }: TopbarProps) => {
   };
 
   const timer = () => {
-    setTimeout(() => setProgress(23), 200);
-    setTimeout(() => setProgress(72), 700);
+    setTimeout(() => setProgress(23), 400);
     setTimeout(() => setProgress(100), 1000);
   };
 

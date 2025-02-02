@@ -4,6 +4,7 @@ import { getArtworksImage } from "@/utils/apiUtils";
 import LoadingImage from "@/components/LoadingImage";
 import FullImageOverlay from "@/components/FullImageOverlay";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 type ArtProps = {
   id: number;
@@ -20,6 +21,13 @@ const Art = ({ id, image_id, width, height, isNavigate = false }: ArtProps) => {
   const [url, setUrl] = useState<string | null>(null);
   const [showFullImage, setShowFullImage] = useState(false);
   const router = useRouter();
+  const [isShowingRedirectLoader, setIsShowingRedirectLoader] = useState(false);
+
+  const handleNavigation = () => {
+    setIsShowingRedirectLoader(true);
+    router.push(`/gallery/${id}`);
+  };
+
   useEffect(() => {
     let newUrl: string;
 
@@ -64,10 +72,11 @@ const Art = ({ id, image_id, width, height, isNavigate = false }: ArtProps) => {
         height={height}
         onClick={
           isNavigate && image_id
-            ? () => router.push(`/gallery/${id}`)
+            ? handleNavigation
             : () => setShowFullImage(true)
         }
       />
+      {isShowingRedirectLoader && <LoadingSpinner />}
     </div>
   ) : (
     <LoadingImage width={275} height={275} />
