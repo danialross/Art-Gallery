@@ -16,12 +16,12 @@ type newlyAddedArtworkProps = {
 const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const [imageWidth, setImageWidth] = useState(200);
-
+  console.log(imageWidth);
   useEffect(() => {
     // Add an event listener for window resize
     const resizeImage = () => {
       if (imageRef.current) {
-        const newWidth = imageRef.current.offsetWidth;
+        const newWidth = (imageRef.current.offsetWidth * 2) / 3;
         setImageWidth(newWidth);
       }
     };
@@ -37,9 +37,11 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
           "flex flex-col lg:flex-row justify-center items-center py-8 gap-8"
         }
         key={`NewlyAddedArt-${index}`}
+        ref={imageRef}
       >
-        <div className={"lg:w-1/3"} ref={imageRef}>
+        <div className={"lg:w-1/3"}>
           <Art
+            id={artwork?.id ? artwork?.id : -1}
             image_id={artwork ? artwork.image_id : ""}
             width={imageWidth}
             height={imageWidth}

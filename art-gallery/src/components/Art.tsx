@@ -70,7 +70,7 @@ const Art = ({ id, image_id, width, height, isNavigate = false }: ArtProps) => {
       />
     </div>
   ) : (
-    <LoadingImage width={width} height={height} />
+    <LoadingImage width={275} height={275} />
   );
 };
 
