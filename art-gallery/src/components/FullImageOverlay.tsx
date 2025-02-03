@@ -42,8 +42,8 @@ export default function FullImageOverlay({
         <Image
           src={url}
           alt={"artwork"}
-          className={"fixed rounded-lg object-contain"}
-          layout="fill"
+          className={"rounded-lg object-contain"}
+          fill
         />
       </div>
     </div>,
