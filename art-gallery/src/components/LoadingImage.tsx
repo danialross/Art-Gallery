@@ -4,7 +4,6 @@ type LoadingImageProps = {
 };
 
 const LoadingImage = ({ width, height }: LoadingImageProps) => {
-  const size = `w-[${width}px] h-[${height}px]`;
   return (
     <div
       style={{ width: `${width}px`, height: `${height}px` }}

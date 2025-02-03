@@ -17,7 +17,7 @@ export default function SingleArtwork({ artwork }: SingleArtworkProps) {
     if (artwork) {
       setSingleArtworkArray([artwork]);
     }
-  }, []);
+  }, [artwork]);
 
   return (
     <div className={`fade-in ${startAnimation ? "opacity-100" : "opacity-0"}`}>

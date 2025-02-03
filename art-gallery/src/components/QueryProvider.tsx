@@ -5,7 +5,6 @@ import { ReactNode, useState } from "react";
 type QueryProviderProps = {
   children: ReactNode;
 };
-// @ts-ignore
 const queryClient = new QueryClient();
 
 const QueryProvider = ({ children }: QueryProviderProps) => {

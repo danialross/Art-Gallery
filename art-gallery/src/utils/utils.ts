@@ -6,9 +6,9 @@ export const processNullValues = (artworks: Artwork[]): Artwork[] => {
   const artworksCopy = [...artworks];
 
   for (const artwork of artworksCopy) {
-    for (let key in artwork) {
+    for (const key in artwork) {
       if (artwork[key as keyof Artwork] === null) {
-        // @ts-ignore
+        // @ts-expect-error key will always be a key as Artwork because it is looping an Artwork Object
         artwork[key as keyof Artwork] = "N/A";
       }
     }

@@ -54,7 +54,7 @@ const Art = ({ id, image_id, width, height, isNavigate = false }: ArtProps) => {
         URL.revokeObjectURL(newUrl);
       }
     };
-  }, [image_id]);
+  }, [image_id, url]);
 
   return url ? (
     <div className={"flex justify-center items-center"}>

@@ -1,6 +1,6 @@
 "use client";
 import Art from "@/components/Art";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getArtworks } from "@/utils/apiUtils";
 import { Artwork } from "@/types";
@@ -27,7 +27,7 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
     gcTime: 1000 * 60 * 2,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Add an event listener for window resize
     const resizeGalleryImages = () => {
       if (galleryRef.current) {
@@ -43,7 +43,7 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
     if (isSuccessQueryArtworks) {
       setArtworks(data);
     }
-  }, [isSuccessQueryArtworks]);
+  }, [isSuccessQueryArtworks, data]);
 
   return (
     <div className={"relative "}>

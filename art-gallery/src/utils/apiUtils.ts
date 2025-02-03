@@ -84,10 +84,16 @@ export const getArtworksImage = async (
     try {
       const result = await axios.get(url, { responseType: "blob" });
       return result.data || null;
-    } catch (_) {
-      console.log(
-        `${image_id} size ${imageSizes[currSizeIndex]} not available, trying size ${imageSizes[currSizeIndex + 1]}`,
-      );
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        console.error(
+          `${image_id} size ${imageSizes[currSizeIndex]} not available, trying size ${imageSizes[currSizeIndex + 1]}: ${e.message}`,
+        );
+      } else {
+        console.error(
+          `${image_id} size ${imageSizes[currSizeIndex]} not available, trying size ${imageSizes[currSizeIndex + 1]}`,
+        );
+      }
       currSizeIndex++;
     }
   }
