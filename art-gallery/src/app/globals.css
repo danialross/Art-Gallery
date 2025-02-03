@@ -29,7 +29,7 @@ body {
     }
 
     .art-grow-effect {
-        @apply transition-all hover:scale-110 duration-200 ease-in-out hover:shadow-2xl
+        @apply transition-all hover:scale-105 duration-200 ease-in-out hover:shadow-2xl
     }
 
     .icon-grow-effect {
