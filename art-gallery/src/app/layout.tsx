@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import QueryProvider from "@/components/QueryProvider";
 
 export const metadata: Metadata = {
-  title: "Art Gallery",
+  title: "The Agora",
   icons: [
     { rel: "icon", url: "/favicon.ico" }, // Default favicon
     { rel: "icon", url: "/favicon-16x16.png", sizes: "16x16" }, // 16x16 favicon

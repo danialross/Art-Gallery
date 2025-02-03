@@ -59,7 +59,7 @@ const Topbar = ({ children }: TopbarProps) => {
           <div className={"h-[48px] w-[48px]"}>
             <PiImagesThin className={"text-black w-full h-full scale-125 "} />
           </div>
-          Agora
+          The Agora
         </Link>
         <div className={"text-medium hidden sm:w-[500px] sm:flex "}>
           {links.map((link) => (
