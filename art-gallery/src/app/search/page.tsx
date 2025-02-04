@@ -2,14 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaArrowRight } from "react-icons/fa6";
-import { useQuery } from "@tanstack/react-query";
+import { searchArtwork } from "@/utils/queryUtils";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import ArtWithDetails from "@/components/ArtWithDetails";
-import { getArtworksFromSearch } from "@/utils/apiUtils";
 import { Artwork } from "@/types";
 import PaginationBar from "@/components/PaginationBar";
 
-const emptyArtwork: Artwork = {
+const nullArtwork: Artwork = {
   artist_title: null,
   date_display: null,
   description: null,
@@ -18,21 +17,16 @@ const emptyArtwork: Artwork = {
   place_of_origin: null,
   title: null,
 };
-const emptyArtworks: Artwork[] = Array.from({ length: 9 }, () => emptyArtwork);
+const nullArtworks: Artwork[] = Array.from({ length: 9 }, () => nullArtwork);
 
 const Search = () => {
-  const [artworks, setArtworks] = useState<Artwork[]>(emptyArtworks);
+  const [artworks, setArtworks] = useState<Artwork[]>(nullArtworks);
   const [inputValue, setInputValue] = useState("");
   const [search, setSearch] = useState("");
   const [searchPage, setSearchPage] = useState(1);
   const [startAnimation, setStartAnimation] = useState(false);
   const { data: searchedArtworks, isLoading: isLoadingSearchingArtworks } =
-    useQuery({
-      queryKey: ["search", search, searchPage],
-      queryFn: () => getArtworksFromSearch(search, searchPage),
-      staleTime: 1000 * 60 * 2,
-      gcTime: 1000 * 60 * 2,
-    });
+    searchArtwork(search, searchPage);
 
   const handleEnterPress = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -42,7 +36,7 @@ const Search = () => {
 
   useEffect(() => {
     if (isLoadingSearchingArtworks) {
-      setArtworks(emptyArtworks);
+      setArtworks(nullArtworks);
     }
   }, [isLoadingSearchingArtworks]);
 
@@ -55,6 +49,7 @@ const Search = () => {
   useEffect(() => {
     setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
   }, [searchPage]);
+
   useEffect(() => {
     setStartAnimation(true);
   }, []);

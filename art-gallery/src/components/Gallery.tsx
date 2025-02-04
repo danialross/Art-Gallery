@@ -1,9 +1,8 @@
 "use client";
 import Art from "@/components/Art";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getArtworks } from "@/utils/apiUtils";
 import { Artwork } from "@/types";
+import { getGalleryArtworks } from "@/utils/queryUtils";
 
 type GalleryProps = {
   galleryArtworks: Artwork[];
@@ -14,19 +13,13 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
   const [imageWidth, setImageWidth] = useState(200);
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const [artworks, setArtworks] = useState<Artwork[]>(galleryArtworks);
+  const [isQueryEnabled, setIsQueryEnabled] = useState(false);
 
   const {
     data,
     isSuccess: isSuccessQueryArtworks,
     isLoading: isLoadingQueryArtworks,
-  } = useQuery({
-    queryKey: ["gallery", page],
-    queryFn: () => getArtworks(9, page, false),
-    enabled: page !== 1,
-    staleTime: 1000 * 60 * 2,
-    gcTime: 1000 * 60 * 2,
-  });
-
+  } = getGalleryArtworks(page, isQueryEnabled);
   useLayoutEffect(() => {
     // Add an event listener for window resize
     const resizeGalleryImages = () => {
@@ -44,6 +37,12 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
       setArtworks(data);
     }
   }, [isSuccessQueryArtworks, data]);
+
+  useEffect(() => {
+    if (page != 1) {
+      setIsQueryEnabled(true);
+    }
+  }, [page]);
 
   return (
     <div className={"relative "}>

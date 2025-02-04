@@ -24,3 +24,13 @@ export const downloadImage = (url: string, name: string) => {
     console.error("Unable to download Image ", e);
   }
 };
+
+export const emptyArtwork: Artwork = {
+  artist_title: "",
+  date_display: "",
+  description: "",
+  id: -1,
+  image_id: null,
+  place_of_origin: "",
+  title: "",
+};

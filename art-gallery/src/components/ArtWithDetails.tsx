@@ -12,7 +12,6 @@ import { useEffect, useRef, useState } from "react";
 type newlyAddedArtworkProps = {
   artworks: Artwork[] | null[];
 };
-
 const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const [imageWidth, setImageWidth] = useState<number>(250);
@@ -37,7 +36,7 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
         className={
           "flex flex-col lg:flex-row justify-center items-center py-8 gap-8"
         }
-        key={`NewlyAddedArt-${index}`}
+        key={`ArtWithDetails-${index}`}
         ref={imageRef}
       >
         <div className={"lg:w-1/3"}>
@@ -49,7 +48,9 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
           />
         </div>
         <div
-          className={"flex flex-col items-center text-center lg:w-2/3 gap-4  "}
+          className={
+            "flex flex-col items-center text-center w-full lg:w-2/3 gap-4  "
+          }
         >
           {artwork?.artist_title ? (
             <p>{artwork.artist_title}</p>

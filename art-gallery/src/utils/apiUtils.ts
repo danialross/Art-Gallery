@@ -86,8 +86,6 @@ export const getArtworksImage = async (
       return result.data || null;
     } catch (e) {
       if (axios.isAxiosError(e)) {
-        console.error("Error retrieving image image", e.message);
-      } else {
         console.log(
           `${image_id} size ${imageSizes[currSizeIndex]} not available, trying size ${imageSizes[currSizeIndex + 1]}`,
         );
