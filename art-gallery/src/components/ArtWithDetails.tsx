@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 type newlyAddedArtworkProps = {
   artworks: Artwork[] | null[];
@@ -15,15 +15,15 @@ type newlyAddedArtworkProps = {
 
 const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
   const imageRef = useRef<HTMLDivElement | null>(null);
-  const [imageWidth, setImageWidth] = useState(0);
-  useLayoutEffect(() => {
+  const [imageWidth, setImageWidth] = useState<number>(250);
+  useEffect(() => {
     // Add an event listener for window resize
     const resizeImage = () => {
       if (imageRef.current) {
         setImageWidth((imageRef.current.offsetWidth * 2) / 3);
       }
     };
-    resizeImage();
+    setTimeout(() => resizeImage(), 500);
     window.addEventListener("resize", resizeImage);
     return () => window.removeEventListener("resize", resizeImage);
   }, []);
