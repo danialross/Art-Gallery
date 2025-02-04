@@ -23,9 +23,12 @@ const ArtWithDetails = ({ artworks }: newlyAddedArtworkProps) => {
         setImageWidth((imageRef.current.offsetWidth * 2) / 3);
       }
     };
-    setTimeout(() => resizeImage(), 500);
+    const timeout = setTimeout(() => resizeImage(), 500);
     window.addEventListener("resize", resizeImage);
-    return () => window.removeEventListener("resize", resizeImage);
+    return () => {
+      window.removeEventListener("resize", resizeImage);
+      clearTimeout(timeout);
+    };
   }, []);
 
   return artworks.map((artwork: Artwork | null, index: number) => {

@@ -50,11 +50,11 @@ const Art = ({ id, image_id, width, height, isNavigate = false }: ArtProps) => {
     getBlobFromImageId();
 
     return () => {
-      if (url && url !== noImage) {
+      if (newUrl && newUrl !== noImage) {
         URL.revokeObjectURL(newUrl);
       }
     };
-  }, [image_id, url]);
+  }, [image_id]);
 
   return url ? (
     <div className={"flex justify-center items-center"}>
