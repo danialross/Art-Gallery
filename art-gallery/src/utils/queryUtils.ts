@@ -7,7 +7,7 @@ import {
 import { processNullValues } from "@/utils/utils";
 import { emptyArtwork } from "@/utils/utils";
 
-export function searchArtwork(search: string, searchPage: number) {
+export function useSearchArtwork(search: string, searchPage: number) {
   return useQuery({
     queryKey: ["search", search, searchPage],
     queryFn: () => getArtworksFromSearch(search, searchPage),
@@ -23,7 +23,7 @@ export function searchArtwork(search: string, searchPage: number) {
   });
 }
 
-export function getArtwork(id: string) {
+export function useGetArtwork(id: string) {
   return useQuery({
     queryKey: ["artwork", id],
     queryFn: () => getArtworkUsingId(id),
@@ -40,7 +40,7 @@ export function getArtwork(id: string) {
   });
 }
 
-export function getGalleryArtworks(page: number, isQueryEnabled: boolean) {
+export function useGetGalleryArtworks(page: number, isQueryEnabled: boolean) {
   return useQuery({
     queryKey: ["gallery", page],
     queryFn: () => getArtworks(9, page, false),

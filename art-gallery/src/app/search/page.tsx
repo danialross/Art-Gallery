@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaArrowRight } from "react-icons/fa6";
-import { searchArtwork } from "@/utils/queryUtils";
+import { useSearchArtwork } from "@/utils/queryUtils";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import ArtWithDetails from "@/components/ArtWithDetails";
 import { Artwork } from "@/types";
@@ -26,7 +26,7 @@ const Search = () => {
   const [searchPage, setSearchPage] = useState(1);
   const [startAnimation, setStartAnimation] = useState(false);
   const { data: searchedArtworks, isLoading: isLoadingSearchingArtworks } =
-    searchArtwork(search, searchPage);
+    useSearchArtwork(search, searchPage);
 
   const handleEnterPress = (e: KeyboardEvent) => {
     if (e.key === "Enter") {

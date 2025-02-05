@@ -2,7 +2,7 @@
 import Art from "@/components/Art";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Artwork } from "@/types";
-import { getGalleryArtworks } from "@/utils/queryUtils";
+import { useGetGalleryArtworks } from "@/utils/queryUtils";
 
 type GalleryProps = {
   galleryArtworks: Artwork[];
@@ -19,7 +19,7 @@ export default function Gallery({ galleryArtworks, page }: GalleryProps) {
     data,
     isSuccess: isSuccessQueryArtworks,
     isLoading: isLoadingQueryArtworks,
-  } = getGalleryArtworks(page, isQueryEnabled);
+  } = useGetGalleryArtworks(page, isQueryEnabled);
   useLayoutEffect(() => {
     // Add an event listener for window resize
     const resizeGalleryImages = () => {
