@@ -30,9 +30,8 @@ const Topbar = ({ children }: TopbarProps) => {
   };
 
   const timer = () => {
-    setTimeout(() => setProgress(23), 400);
-    setTimeout(() => setProgress(67), 1000);
-    setTimeout(() => setProgress(100), 1500);
+    setTimeout(() => setProgress(33), 200);
+    setTimeout(() => setProgress(100), 500);
   };
 
   const handleProgressAnimation = (nextRoute: string) => {
