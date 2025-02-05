@@ -31,8 +31,7 @@ export function useGetArtwork(id: string) {
       if (!result) {
         return emptyArtwork;
       } else {
-        return emptyArtwork;
-        // processNullValues([result])[0];
+        return processNullValues([result])[0];
       }
     },
     staleTime: 1000 * 60 * 2,
