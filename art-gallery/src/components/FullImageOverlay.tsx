@@ -29,7 +29,7 @@ export default function FullImageOverlay({
         }}
       >
         <ImCross
-          className={"absolute top-5 right-5 icon-grow-effect"}
+          className={"absolute top-12 right-12 icon-grow-effect"}
           size={20}
         />
       </button>

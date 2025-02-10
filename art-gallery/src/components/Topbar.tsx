@@ -56,7 +56,7 @@ const Topbar = ({ children }: TopbarProps) => {
           onClick={() => handleProgressAnimation("/")}
         >
           <div className={"h-[48px] w-[48px] text-nowrap"}>
-            <PiImagesThin className={"text-black w-full h-full scale-125 "} />
+            <PiImagesThin className={"text-secondary w-full h-full scale-125 "} />
           </div>
           The Agora
         </Link>
