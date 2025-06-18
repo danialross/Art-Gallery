@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ImCross } from "react-icons/im";
 import { MdOutlineFileDownload } from "react-icons/md";
-import { Dispatch, HTMLProps, SetStateAction } from "react";
+import { Dispatch, HTMLProps, SetStateAction, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { downloadImage } from "@/utils/utils";
 
@@ -11,14 +11,24 @@ type FullImageOverlayProps = {
   image_id: string;
   className: string;
   visibilitySetter: Dispatch<SetStateAction<boolean>>;
+  visibility: boolean;
 } & HTMLProps<HTMLDivElement>;
 
 export default function FullImageOverlay({
   url,
   image_id,
+  visibility,
   visibilitySetter,
   className,
 }: FullImageOverlayProps) {
+  useEffect(() => {
+    if (visibility) {
+      document.body.style.overflowY = "hidden";
+    }
+    return () => {
+      document.body.style.overflowY = "auto";
+    };
+  }, [visibility]);
   return createPortal(
     <div
       className={`fixed top-0 left-0 w-screen h-screen backdrop-blur flex flex-col justify-center items-center gap-8 ${className}`}

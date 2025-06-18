@@ -61,6 +61,7 @@ const Art = ({ id, image_id, width, height, isNavigate = false }: ArtProps) => {
       <FullImageOverlay
         url={url}
         image_id={image_id ? image_id : ""}
+        visibility={showFullImage}
         visibilitySetter={setShowFullImage}
         className={`overlay-transition ${showFullImage ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       />
