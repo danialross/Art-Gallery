@@ -22,11 +22,16 @@ export default function FullImageOverlay({
   className,
 }: FullImageOverlayProps) {
   useEffect(() => {
+    const preventTouchMove = (e: TouchEvent) => e.preventDefault();
     if (visibility) {
       document.body.style.overflowY = "hidden";
+      document.body.addEventListener("touchmove", preventTouchMove, {
+        passive: false,
+      });
     }
     return () => {
       document.body.style.overflowY = "auto";
+      document.body.removeEventListener("touchmove", preventTouchMove);
     };
   }, [visibility]);
   return createPortal(
